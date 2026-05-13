@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const positions = [
   'Oberarzt an der Augenklinik des LMU Klinikums München',
@@ -57,6 +57,8 @@ const videos = [
     thumbnailUrl: 'https://i.ytimg.com/vi/To78wfcSCJE/hqdefault.jpg',
   },
 ]
+
+const CONSENT_KEY = 'eyepinion-cookie-consent'
 
 const styles = `
   :root {
@@ -155,8 +157,39 @@ const styles = `
   .privacy { margin-top:24px; padding:22px 24px; border-radius:24px; border:1px solid #e2e8f0; background:#fbfbfa; color:#475569; font-size:14px; line-height:1.75; }
   .privacy h3 { margin:0 0 12px; font-size:18px; color:#0f172a; }
   .privacy p { margin:12px 0 0; }
+  .cookie-banner {
+    position: fixed;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    z-index: 80;
+    display: grid;
+    gap: 16px;
+    padding: 22px 24px;
+    border: 1px solid rgba(255,255,255,.8);
+    border-radius: 1.5rem;
+    background: rgba(255,255,255,0.96);
+    box-shadow: 0 20px 60px rgba(15,23,42,.16);
+    backdrop-filter: blur(14px);
+  }
+  .cookie-title { font-size: 18px; font-weight: 600; color: #0f172a; }
+  .cookie-text { color: var(--muted); line-height: 1.75; }
+  .cookie-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn-ghost { background: #fff; border: 1px solid #cbd5e1; color: #0f172a; }
+  .btn-ghost:hover { background: #f8fafc; }
   @media (max-width: 1024px) { .hero,.profile-focus,.vita-grid,.contact-grid,.legal-grid { grid-template-columns:1fr; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr 1fr; } }
-  @media (max-width: 760px) { .container { width:min(100% - 28px, 1180px); } .header-inner { display:grid; } .nav { display:none; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr; } .note { flex-direction:column; align-items:flex-start; } h1 { font-size:40px; } .lead { font-size:18px; } .photo-caption { font-size:18px; } section { scroll-margin-top: 58px; } }
+  @media (max-width: 760px) {
+    .container { width:min(100% - 28px, 1180px); }
+    .header-inner { display:grid; }
+    .nav { display:none; }
+    .grid-3,.grid-2,.video-grid { grid-template-columns:1fr; }
+    .note { flex-direction:column; align-items:flex-start; }
+    h1 { font-size:40px; }
+    .lead { font-size:18px; }
+    .photo-caption { font-size:18px; }
+    section { scroll-margin-top: 58px; }
+    .cookie-banner { left: 14px; right: 14px; bottom: 14px; padding: 18px; }
+  }
 `
 
 function IconHospital() {
@@ -165,6 +198,19 @@ function IconHospital() {
 
 function App() {
   const [activatedVideos, setActivatedVideos] = useState({})
+  const [cookieConsent, setCookieConsent] = useState(null)
+
+  useEffect(() => {
+    const savedConsent = window.localStorage.getItem(CONSENT_KEY)
+    if (savedConsent) {
+      setCookieConsent(savedConsent)
+    }
+  }, [])
+
+  const saveConsent = (value) => {
+    window.localStorage.setItem(CONSENT_KEY, value)
+    setCookieConsent(value)
+  }
 
   const activateVideo = (title) => {
     setActivatedVideos((current) => ({ ...current, [title]: true }))
@@ -286,6 +332,23 @@ function App() {
           <div className="privacy"><h3>Datenschutzhinweise</h3><p>Verantwortlich für die Datenverarbeitung auf dieser Website ist PD Dr. med. Jakob Siedlecki, Südliche Münchner Straße 20, 82031 Grünwald, E-Mail: jakob@eyepinion.de.</p><p>Beim Aufruf der Website können technisch erforderliche Verbindungsdaten und Server-Logfiles verarbeitet werden, um die Website sicher und stabil bereitzustellen.</p><p>Wenn Sie per E-Mail Kontakt aufnehmen, werden Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet.</p><p>Auf dieser Website sind Videos von YouTube eingebunden. Die Videos werden erst nach aktiver Freigabe geladen. Beim Aktivieren oder Abspielen können personenbezogene Daten an YouTube beziehungsweise Google übermittelt werden.</p><p>Alle abgebildeten intraoperativen Aufnahmen wurden zum Schutz der Patientendaten anonymisiert (biometrische Merkmale KI-gestützt entfernt).</p></div>
         </section>
       </main>
+
+      {cookieConsent === null && (
+        <div className="cookie-banner">
+          <div className="cookie-title">Cookie- und Datenschutzeinstellungen</div>
+          <div className="cookie-text">
+            Diese Website verwendet technisch erforderliche Speicherungen im Browser, um grundlegende Funktionen und Ihre Auswahl zu sichern. Externe Inhalte wie YouTube werden erst nach Ihrer aktiven Freigabe geladen. Weitere Informationen finden Sie unter Impressum und Datenschutzhinweise.
+          </div>
+          <div className="cookie-actions">
+            <button type="button" className="btn btn-dark" onClick={() => saveConsent('all')}>
+              Alle akzeptieren
+            </button>
+            <button type="button" className="btn btn-ghost" onClick={() => saveConsent('necessary')}>
+              Nur notwendige
+            </button>
+          </div>
+        </div>
+      )}
     </>
   )
 }
