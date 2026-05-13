@@ -73,6 +73,7 @@ const styles = `
   html { scroll-behavior: smooth; }
   body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 44%, #fff 100%); }
   a { color: inherit; text-decoration: none; }
+  button { font: inherit; }
   .container { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
   .header { position: sticky; top: 0; z-index: 30; border-bottom: 1px solid rgba(255,255,255,.7); background: rgba(255,255,255,.82); backdrop-filter: blur(14px); }
   .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 16px 0; }
@@ -81,8 +82,10 @@ const styles = `
   .nav { display: flex; flex-wrap: wrap; gap: 8px; }
   .nav a, .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; padding: 10px 16px; font-size: 14px; transition: .2s ease; }
   .nav a:hover { background: #f1f5f9; }
+  .btn { border: none; cursor: pointer; }
   .btn-dark { background: #0f172a; color: #fff; }
   .btn-light { background: #fff; border: 1px solid #cbd5e1; color: #0f172a; }
+  .btn-light:hover { background: #f8fafc; }
   .hero { display: grid; grid-template-columns: 1.03fr .97fr; gap: 40px; align-items: start; padding: 48px 0 56px; }
   .badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid #e2e8f0; background: rgba(255,255,255,.92); color: var(--muted); font-size: 14px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
   h1 { margin: 24px 0 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.03; letter-spacing: -.03em; font-weight: 600; color: #0f172a; }
@@ -155,6 +158,9 @@ const styles = `
   .privacy { margin-top:24px; padding:22px 24px; border-radius:24px; border:1px solid #e2e8f0; background:#fbfbfa; color:#475569; font-size:14px; line-height:1.75; }
   .privacy h3 { margin:0 0 12px; font-size:18px; color:#0f172a; }
   .privacy p { margin:12px 0 0; }
+  .privacy-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+  .legal-links { margin-top: 14px; color:#475569; }
+  .legal-links a { text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 1024px) { .hero,.profile-focus,.vita-grid,.contact-grid,.legal-grid { grid-template-columns:1fr; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr 1fr; } }
   @media (max-width: 760px) {
     .container { width:min(100% - 28px, 1180px); }
@@ -178,6 +184,12 @@ function App() {
 
   const activateVideo = (title) => {
     setActivatedVideos((current) => ({ ...current, [title]: true }))
+  }
+
+  const openCookieSettings = () => {
+    if (window.Cookiebot?.renew) {
+      window.Cookiebot.renew()
+    }
   }
 
   return (
@@ -288,12 +300,12 @@ function App() {
         <section id="impressum">
           <div className="eyebrow">Impressum & Hinweise</div>
           <h2 className="section-title">Impressum und medizinischer Disclaimer</h2>
-          <p className="section-text">Standardangaben für den Webauftritt als eigener Anbieter.</p>
+          <p className="section-text">Anbieterangaben und rechtliche Hinweise für den Webauftritt.</p>
           <div className="legal-grid">
-            <div className="card"><div className="card-body" style={{ lineHeight: 1.8 }}><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Impressum</div><div style={{ marginTop: 14 }}>PD Dr. med. Jakob Siedlecki<br />Südliche Münchner Straße 20, 82031 Grünwald<br />E-Mail: jakob@eyepinion.de</div><div style={{ marginTop: 18 }}><strong>Berufsbezeichnung:</strong> Arzt<br /><strong>Verliehen in:</strong> Bundesrepublik Deutschland<br /><strong>Zuständige Ärztekammer:</strong> Bayerische Landesärztekammer<br /><strong>Zuständige Kassenärztliche Vereinigung:</strong> Kassenärztliche Vereinigung Bayerns</div></div></div>
-            <div className="card"><div className="card-body" style={{ lineHeight: 1.8 }}><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Disclaimer</div><div style={{ marginTop: 14 }}>Die Inhalte dieser Website dienen ausschließlich der allgemeinen Information. Sie ersetzen keine individuelle ärztliche Beratung, Untersuchung oder Behandlung.</div><div style={{ marginTop: 14 }}>Aus den bereitgestellten Informationen kann keine Selbstdiagnose oder Selbstbehandlung abgeleitet werden. Bei akuten Beschwerden oder medizinischen Fragen sollte stets eine augenärztliche Untersuchung erfolgen.</div></div></div>
+            <div className="card"><div className="card-body" style={{ lineHeight: 1.8 }}><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Impressum</div><div style={{ marginTop: 14 }}>PD Dr. med. Jakob Siedlecki<br />Südliche Münchner Straße 20, 82031 Grünwald<br />E-Mail: jakob@eyepinion.de</div><div style={{ marginTop: 18 }}><strong>Berufsbezeichnung:</strong> Arzt<br /><strong>Verliehen in:</strong> Bundesrepublik Deutschland<br /><strong>Zuständige Ärztekammer:</strong> Bayerische Landesärztekammer<br /><strong>Zuständige Kassenärztliche Vereinigung:</strong> Kassenärztliche Vereinigung Bayerns</div><div style={{ marginTop: 18 }}><strong>Berufsrechtliche Regelungen:</strong><br />Bundesärzteordnung (BÄO)<br />Berufsordnung für die Ärzte Bayerns<br />Heilberufe-Kammergesetz (HKaG)<br />Gebührenordnung für Ärzte (GOÄ)</div><div className="legal-links">Die berufsrechtlichen Regelungen sind abrufbar über die Bayerische Landesärztekammer sowie über die amtlichen Gesetzesportale des Bundes und des Freistaats Bayern.</div></div></div>
+            <div className="card"><div className="card-body" style={{ lineHeight: 1.8 }}><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Medizinischer Disclaimer</div><div style={{ marginTop: 14 }}>Die Inhalte dieser Website dienen ausschließlich der allgemeinen Information. Sie ersetzen keine individuelle ärztliche Beratung, Untersuchung oder Behandlung.</div><div style={{ marginTop: 14 }}>Aus den bereitgestellten Informationen kann keine Selbstdiagnose oder Selbstbehandlung abgeleitet werden. Bei akuten Beschwerden oder medizinischen Fragen sollte stets eine augenärztliche Untersuchung erfolgen.</div><div style={{ marginTop: 14 }}>Trotz sorgfältiger inhaltlicher Kontrolle wird keine Gewähr für Aktualität, Vollständigkeit und Richtigkeit der allgemein bereitgestellten Informationen übernommen. Für Inhalte externer Links sind ausschließlich deren Betreiber verantwortlich.</div></div></div>
           </div>
-          <div className="privacy"><h3>Datenschutzhinweise</h3><p>Verantwortlich für die Datenverarbeitung auf dieser Website ist PD Dr. med. Jakob Siedlecki, Südliche Münchner Straße 20, 82031 Grünwald, E-Mail: jakob@eyepinion.de.</p><p>Beim Aufruf der Website können technisch erforderliche Verbindungsdaten und Server-Logfiles verarbeitet werden, um die Website sicher und stabil bereitzustellen.</p><p>Wenn Sie per E-Mail Kontakt aufnehmen, werden Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet.</p><p>Auf dieser Website sind Videos von YouTube eingebunden. Die Videos werden erst nach aktiver Freigabe geladen. Beim Aktivieren oder Abspielen können personenbezogene Daten an YouTube beziehungsweise Google übermittelt werden.</p><p>Alle abgebildeten intraoperativen Aufnahmen wurden zum Schutz der Patientendaten anonymisiert (biometrische Merkmale KI-gestützt entfernt).</p></div>
+          <div className="privacy"><h3>Datenschutzhinweise</h3><p>Verantwortlich für die Datenverarbeitung auf dieser Website ist PD Dr. med. Jakob Siedlecki, Südliche Münchner Straße 20, 82031 Grünwald, E-Mail: jakob@eyepinion.de.</p><p>Beim Aufruf dieser Website verarbeitet der Hosting-Anbieter technisch erforderliche Verbindungsdaten und Server-Logfiles, insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, Referrer, Browsertyp sowie Betriebssystem, um die Website sicher, stabil und funktionsfähig bereitzustellen. Die Verarbeitung erfolgt zur Wahrung berechtigter Interessen an der sicheren Bereitstellung des Online-Angebots.</p><p>Diese Website verwendet ein Consent-Management-Tool von Cookiebot. Dabei werden Informationen gespeichert, um Einwilligungen oder Ablehnungen rechtssicher zu dokumentieren und die gewählten Datenschutzeinstellungen umzusetzen.</p><p>Wenn Sie per E-Mail Kontakt aufnehmen, werden die von Ihnen übermittelten Daten ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet. Die Verarbeitung erfolgt zur Durchführung vorvertraglicher Maßnahmen oder zur Bearbeitung Ihres Anliegens.</p><p>Auf dieser Website sind Videos von YouTube eingebunden. Die Videos werden nicht automatisch geladen, sondern erst nach aktiver Freigabe durch den Nutzer. Beim Aktivieren oder Abspielen können personenbezogene Daten, insbesondere die IP-Adresse sowie Nutzungsdaten, an YouTube beziehungsweise Google übermittelt und dort weiterverarbeitet werden.</p><p>Alle abgebildeten intraoperativen Aufnahmen wurden zum Schutz der Patientendaten anonymisiert (biometrische Merkmale KI-gestützt entfernt).</p><p>Sie haben nach Maßgabe der gesetzlichen Vorschriften insbesondere das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Widerspruch sowie Datenübertragbarkeit. Zudem besteht ein Beschwerderecht bei einer Datenschutzaufsichtsbehörde.</p><p>Datenschutzeinstellungen können jederzeit erneut geöffnet und angepasst werden.</p><div className="privacy-actions"><button type="button" className="btn btn-light" onClick={openCookieSettings}>Datenschutzeinstellungen</button></div></div>
         </section>
       </main>
     </>
