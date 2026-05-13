@@ -83,7 +83,7 @@ const styles = `
   .photo-frame { position:relative; overflow:hidden; border-radius:2rem; border:1px solid rgba(255,255,255,.8); background:#fff; box-shadow:0 20px 60px rgba(15,23,42,.12); aspect-ratio:4/5; width:min(100%, 380px); margin:0 auto; }
   .photo-frame img { width:100%; height:100%; object-fit:cover; display:block; }
   .photo-caption { margin-top:16px; text-align:center; font-size:20px; font-weight:600; color:#0f172a; }
-  section { padding: 36px 0; scroll-margin-top: 110px; }
+  section { padding: 36px 0; scroll-margin-top: 86px; }
   .section-title { margin:0; font-size: clamp(32px, 3.5vw, 42px); line-height: 1.08; letter-spacing:-.03em; color:#0f172a; }
   .section-text { margin-top:16px; max-width:760px; font-size:18px; line-height:1.8; color:var(--muted); }
   .profile-focus, .vita-grid, .contact-grid, .legal-grid { display:grid; gap:24px; }
@@ -109,7 +109,7 @@ const styles = `
   .privacy h3 { margin:0 0 12px; font-size:18px; color:#0f172a; }
   .privacy p { margin:12px 0 0; }
   @media (max-width: 1024px) { .hero,.profile-focus,.vita-grid,.contact-grid,.legal-grid { grid-template-columns:1fr; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr 1fr; } }
-  @media (max-width: 760px) { .container { width:min(100% - 28px, 1180px); } .header-inner { display:grid; } .nav { display:none; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr; } .note { flex-direction:column; align-items:flex-start; } h1 { font-size:40px; } .lead { font-size:18px; } .photo-caption { font-size:18px; } section { scroll-margin-top: 72px; } }
+  @media (max-width: 760px) { .container { width:min(100% - 28px, 1180px); } .header-inner { display:grid; } .nav { display:none; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr; } .note { flex-direction:column; align-items:flex-start; } h1 { font-size:40px; } .lead { font-size:18px; } .photo-caption { font-size:18px; } section { scroll-margin-top: 58px; } }
 `
 
 function IconHospital() {
