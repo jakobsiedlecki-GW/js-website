@@ -229,7 +229,7 @@ function App() {
 
         <section id="vita">
           <div className="eyebrow">Vita</div>
-          <h2 className="section-title">Medizinische Laufbahn und wissenschaftliche Tätigkeit</h2>
+          <h2 className="section-title">Laufbahn und Wissenschaft</h2>
           <div className="vita-grid" style={{ marginTop: 40 }}>
             <div className="card soft-mint"><div className="card-body"><div style={{ fontSize: 30, fontWeight: 600, color: '#0f172a' }}>Medizinische Laufbahn</div><div className="inner-frame"><div className="inner-list">{timeline.map(([year, text]) => <div className="inner-item" key={year + text}><strong>{year}</strong>{text}</div>)}</div></div></div></div>
             <div className="card soft-mint"><div className="card-body"><div style={{ fontSize: 30, fontWeight: 600, color: '#0f172a' }}>Lehre, Forschung und Publikationen</div><div className="inner-frame"><div className="inner-list">{research.map((item, idx) => <div className="inner-item" key={idx}>{idx === 2 ? <>Wissenschaftliche Publikationstätigkeit (&gt;100 Publikationen in Fachzeitschriften mit Peer-Review) (<a href="https://scholar.google.com/citations?user=ZWFYojEAAAAJ&hl=de" target="_blank" rel="noreferrer">Google Scholar</a>)</> : item}</div>)}</div></div></div></div>
