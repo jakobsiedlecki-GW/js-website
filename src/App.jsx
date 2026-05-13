@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 const positions = [
   'Oberarzt an der Augenklinik des LMU Klinikums München',
   'Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München',
@@ -102,6 +104,11 @@ const styles = `
   .video-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:24px; margin-top:40px; }
   .video-frame { aspect-ratio:16/9; background:#f1f5f9; }
   .video-frame iframe { width:100%; height:100%; border:0; display:block; }
+  .video-placeholder { aspect-ratio:16/9; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; background:linear-gradient(135deg, #eef4f2, #faf7f3); text-align:center; }
+  .video-placeholder-title { font-size:18px; font-weight:600; color:#0f172a; }
+  .video-placeholder-text { max-width:460px; color:var(--muted); line-height:1.7; }
+  .video-activate { border:1px solid #cbd5e1; background:#fff; color:#0f172a; border-radius:999px; padding:12px 18px; font-size:14px; cursor:pointer; }
+  .video-activate:hover { background:#f8fafc; }
   .video-title { padding:22px 24px 24px; font-size:22px; line-height:1.4; font-weight:600; color:#0f172a; }
   .note { margin-top:32px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:22px 24px; border-radius:24px; background:#0f172a; color:#fff; }
   .note small { display:block; margin-top:4px; color:#cbd5e1; }
@@ -117,6 +124,12 @@ function IconHospital() {
 }
 
 function App() {
+  const [activatedVideos, setActivatedVideos] = useState({})
+
+  const activateVideo = (title) => {
+    setActivatedVideos((current) => ({ ...current, [title]: true }))
+  }
+
   return (
     <>
       <style>{styles}</style>
@@ -184,8 +197,28 @@ function App() {
         <section id="videos">
           <div className="eyebrow">Videos</div>
           <h2 className="section-title">Videos</h2>
-          <p className="section-text">Eingebettete Informationen und Beiträge rund um Netzhaut, Makula und Augenheilkunde.</p>
-          <div className="video-grid">{videos.map(([title, url]) => <div className="card" key={title}><div className="video-frame"><iframe src={url} title={title} loading="lazy" allowFullScreen /></div><div className="video-title">{title}</div></div>)}</div>
+          <p className="section-text">Die YouTube-Videos werden erst nach aktiver Freigabe geladen.</p>
+          <div className="video-grid">
+            {videos.map(([title, url]) => {
+              const isActivated = activatedVideos[title]
+              return (
+                <div className="card" key={title}>
+                  <div className="video-frame">
+                    {isActivated ? (
+                      <iframe src={url} title={title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                    ) : (
+                      <div className="video-placeholder">
+                        <div className="video-placeholder-title">Externer YouTube-Inhalt</div>
+                        <div className="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div>
+                        <button type="button" className="video-activate" onClick={() => activateVideo(title)}>Video aktivieren</button>
+                      </div>
+                    )}
+                  </div>
+                  <div className="video-title">{title}</div>
+                </div>
+              )
+            })}
+          </div>
         </section>
 
         <section id="kontakt">
@@ -207,7 +240,7 @@ function App() {
             <div className="card"><div className="card-body" style={{ lineHeight: 1.8 }}><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Impressum</div><div style={{ marginTop: 14 }}>PD Dr. med. Jakob Siedlecki<br />Südliche Münchner Straße 20, 82031 Grünwald<br />E-Mail: jakob@eyepinion.de</div><div style={{ marginTop: 18 }}><strong>Berufsbezeichnung:</strong> Arzt<br /><strong>Verliehen in:</strong> Bundesrepublik Deutschland<br /><strong>Zuständige Ärztekammer:</strong> Bayerische Landesärztekammer<br /><strong>Zuständige Kassenärztliche Vereinigung:</strong> Kassenärztliche Vereinigung Bayerns</div></div></div>
             <div className="card"><div className="card-body" style={{ lineHeight: 1.8 }}><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Disclaimer</div><div style={{ marginTop: 14 }}>Die Inhalte dieser Website dienen ausschließlich der allgemeinen Information. Sie ersetzen keine individuelle ärztliche Beratung, Untersuchung oder Behandlung.</div><div style={{ marginTop: 14 }}>Aus den bereitgestellten Informationen kann keine Selbstdiagnose oder Selbstbehandlung abgeleitet werden. Bei akuten Beschwerden oder medizinischen Fragen sollte stets eine augenärztliche Untersuchung erfolgen.</div></div></div>
           </div>
-          <div className="privacy"><h3>Datenschutzhinweise</h3><p>Verantwortlich für die Datenverarbeitung auf dieser Website ist PD Dr. med. Jakob Siedlecki, Südliche Münchner Straße 20, 82031 Grünwald, E-Mail: jakob@eyepinion.de.</p><p>Beim Aufruf der Website können technisch erforderliche Verbindungsdaten und Server-Logfiles verarbeitet werden, um die Website sicher und stabil bereitzustellen.</p><p>Wenn Sie per E-Mail Kontakt aufnehmen, werden Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet.</p><p>Auf dieser Website sind Videos von YouTube eingebunden. Beim Aufruf der Videobereiche oder beim Abspielen können personenbezogene Daten an YouTube beziehungsweise Google übermittelt werden.</p><p>Alle abgebildeten intraoperativen Aufnahmen wurden zum Schutz der Patientendaten anonymisiert (biometrische Merkmale KI-gestützt entfernt).</p></div>
+          <div className="privacy"><h3>Datenschutzhinweise</h3><p>Verantwortlich für die Datenverarbeitung auf dieser Website ist PD Dr. med. Jakob Siedlecki, Südliche Münchner Straße 20, 82031 Grünwald, E-Mail: jakob@eyepinion.de.</p><p>Beim Aufruf der Website können technisch erforderliche Verbindungsdaten und Server-Logfiles verarbeitet werden, um die Website sicher und stabil bereitzustellen.</p><p>Wenn Sie per E-Mail Kontakt aufnehmen, werden Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet.</p><p>Auf dieser Website sind Videos von YouTube eingebunden. Die Videos werden erst nach aktiver Freigabe geladen. Beim Aktivieren oder Abspielen können personenbezogene Daten an YouTube beziehungsweise Google übermittelt werden.</p><p>Alle abgebildeten intraoperativen Aufnahmen wurden zum Schutz der Patientendaten anonymisiert (biometrische Merkmale KI-gestützt entfernt).</p></div>
         </section>
       </main>
     </>
