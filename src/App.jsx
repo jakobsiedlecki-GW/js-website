@@ -36,10 +36,26 @@ const research = [
 ]
 
 const videos = [
-  ['Die altersbedingte Makuladegeneration (AMD) – weit verbreitet, aber kaum bekannt.', 'https://www.youtube.com/embed/MrGrB5dzV0U'],
-  ['Checker-Tobi: Der Augen-Check', 'https://www.youtube.com/embed/N9L75KJIktk'],
-  ['Retina-Sprechstunde (Teil 1)', 'https://www.youtube.com/embed/VjFzIsMXSnk'],
-  ['Retina-Sprechstunde (Teil 2)', 'https://www.youtube.com/embed/To78wfcSCJE'],
+  {
+    title: 'Die altersbedingte Makuladegeneration (AMD) – weit verbreitet, aber kaum bekannt.',
+    embedUrl: 'https://www.youtube.com/embed/MrGrB5dzV0U',
+    thumbnailUrl: 'https://i.ytimg.com/vi/MrGrB5dzV0U/hqdefault.jpg',
+  },
+  {
+    title: 'Checker-Tobi: Der Augen-Check',
+    embedUrl: 'https://www.youtube.com/embed/N9L75KJIktk',
+    thumbnailUrl: 'https://i.ytimg.com/vi/N9L75KJIktk/hqdefault.jpg',
+  },
+  {
+    title: 'Retina-Sprechstunde (Teil 1)',
+    embedUrl: 'https://www.youtube.com/embed/VjFzIsMXSnk',
+    thumbnailUrl: 'https://i.ytimg.com/vi/VjFzIsMXSnk/hqdefault.jpg',
+  },
+  {
+    title: 'Retina-Sprechstunde (Teil 2)',
+    embedUrl: 'https://www.youtube.com/embed/To78wfcSCJE',
+    thumbnailUrl: 'https://i.ytimg.com/vi/To78wfcSCJE/hqdefault.jpg',
+  },
 ]
 
 const styles = `
@@ -104,11 +120,35 @@ const styles = `
   .video-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:24px; margin-top:40px; }
   .video-frame { aspect-ratio:16/9; background:#f1f5f9; }
   .video-frame iframe { width:100%; height:100%; border:0; display:block; }
-  .video-placeholder { aspect-ratio:16/9; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px; background:linear-gradient(135deg, #eef4f2, #faf7f3); text-align:center; }
-  .video-placeholder-title { font-size:18px; font-weight:600; color:#0f172a; }
-  .video-placeholder-text { max-width:460px; color:var(--muted); line-height:1.7; }
-  .video-activate { border:1px solid #cbd5e1; background:#fff; color:#0f172a; border-radius:999px; padding:12px 18px; font-size:14px; cursor:pointer; }
-  .video-activate:hover { background:#f8fafc; }
+  .video-placeholder {
+    position: relative;
+    aspect-ratio: 16/9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .video-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.48);
+  }
+  .video-placeholder-content {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+    padding: 28px;
+    text-align:center;
+    color:#fff;
+  }
+  .video-placeholder-title { font-size:20px; font-weight:600; color:#fff; }
+  .video-placeholder-text { margin-top:10px; max-width:460px; color:rgba(255,255,255,0.92); line-height:1.7; }
+  .video-activate { margin-top:18px; border:1px solid rgba(255,255,255,0.7); background:rgba(255,255,255,0.95); color:#0f172a; border-radius:999px; padding:12px 18px; font-size:14px; cursor:pointer; }
+  .video-activate:hover { background:#ffffff; }
   .video-title { padding:22px 24px 24px; font-size:22px; line-height:1.4; font-weight:600; color:#0f172a; }
   .note { margin-top:32px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:22px 24px; border-radius:24px; background:#0f172a; color:#fff; }
   .note small { display:block; margin-top:4px; color:#cbd5e1; }
@@ -197,20 +237,21 @@ function App() {
         <section id="videos">
           <div className="eyebrow">Videos</div>
           <h2 className="section-title">Videos</h2>
-          <p className="section-text">Die YouTube-Videos werden erst nach aktiver Freigabe geladen.</p>
           <div className="video-grid">
-            {videos.map(([title, url]) => {
+            {videos.map(({ title, embedUrl, thumbnailUrl }) => {
               const isActivated = activatedVideos[title]
               return (
                 <div className="card" key={title}>
                   <div className="video-frame">
                     {isActivated ? (
-                      <iframe src={url} title={title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                      <iframe src={embedUrl} title={title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                     ) : (
-                      <div className="video-placeholder">
-                        <div className="video-placeholder-title">Externer YouTube-Inhalt</div>
-                        <div className="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div>
-                        <button type="button" className="video-activate" onClick={() => activateVideo(title)}>Video aktivieren</button>
+                      <div className="video-placeholder" style={{ backgroundImage: `url(${thumbnailUrl})` }}>
+                        <div className="video-placeholder-content">
+                          <div className="video-placeholder-title">Externer YouTube-Inhalt</div>
+                          <div className="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div>
+                          <button type="button" className="video-activate" onClick={() => activateVideo(title)}>Video aktivieren</button>
+                        </div>
                       </div>
                     )}
                   </div>
