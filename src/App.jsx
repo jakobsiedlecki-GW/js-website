@@ -158,7 +158,7 @@ function App() {
           </div>
           <div className="photo-wrap">
             <div className="photo-glow" />
-            <div className="photo-frame"><img src="/jakob-siedlecki.jpg" alt="PD Dr. med. Jakob Siedlecki, FEBO" /></div>
+            <div className="photo-frame"><img src="/jakob-siedlecki.jpeg" alt="PD Dr. med. Jakob Siedlecki, FEBO" /></div>
             <div className="photo-caption">PD Dr. med. Jakob Siedlecki, FEBO</div>
           </div>
         </section>
