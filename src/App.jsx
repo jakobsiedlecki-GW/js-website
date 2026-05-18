@@ -1,0 +1,315 @@
+import { useState } from 'react'
+
+const positions = [
+  'Oberarzt an der Augenklinik des LMU Klinikums München',
+  'Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München',
+]
+
+const highlights = [
+  'Linsenchirurgie (Grauer Star, "Katarakt")',
+  'Makula-Therapie (IVOM, Laser, Diagnostik)',
+  'Augenärztliche Vorsorge (Sehfehler, Brillenverordnung u.v.m.)',
+  'Glaukomdiagnostik und -therapie',
+  'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen u.v.m.)',
+  'Therapie des Trockenen Auges',
+]
+
+const timeline = [
+  ['seit 2023', 'Zusätzliche konservative und chirurgische Tätigkeit in Niederlassung (Grünwald)'],
+  ['10/2021', 'Ernennung zum Oberarzt für ophthalmologische Vorder- und Hinterabschnittschirurgie mit Schwerpunkt Linsen- und Netzhautchirurgie sowie medikamentöser Makulatherapie'],
+  ['08/2021', 'Habilitation im Fach Augenheilkunde an der LMU München und Ernennung zum Privatdozenten'],
+  ['03/2021', 'Facharztanerkennung und FEBO'],
+  ['2019', 'Experimentelle Promotion (summa cum laude) zur Therapieoptimierung der feuchten AMD'],
+  ['2015 bis 2021', 'Weiterbildung zum Facharzt für Augenheilkunde an der Augenklinik und Poliklinik des Klinikums der Universität München'],
+  ['2015', 'Staatsexamen und Approbation als Arzt'],
+  ['2008 bis 2015', 'Medizinstudium an der LMU München und der Technischen Universität München'],
+]
+
+const research = [
+  '>10 Jahre Lehrtätigkeit in der Augenheilkunde',
+  'Regelmäßige nationale und internationale Fachvorträge und Mitarbeit in zahlreichen Fortbildungsformaten',
+  'Wissenschaftliche Publikationstätigkeit (>100 Publikationen in Fachzeitschriften mit Peer-Review)',
+  'Autor zahlreicher Buchkapitel zur Augenchirurgie und spezialisierten Diagnostik',
+  'Medizinischer Sachverständiger in augenärztlichen Streitfragen',
+  'Betreuung von Doktorandinnen und Doktoranden',
+  'Mitglied zahlreicher Fachgesellschaften (DOG, RG, EURETINA, ARVO, AAO u.v.m.)',
+]
+
+const videos = [
+  {
+    title: 'Die altersbedingte Makuladegeneration (AMD) – weit verbreitet, aber kaum bekannt.',
+    embedUrl: 'https://www.youtube.com/embed/MrGrB5dzV0U',
+    thumbnailUrl: 'https://i.ytimg.com/vi/MrGrB5dzV0U/hqdefault.jpg',
+  },
+  {
+    title: 'Checker-Tobi: Der Augen-Check',
+    embedUrl: 'https://www.youtube.com/embed/N9L75KJIktk',
+    thumbnailUrl: 'https://i.ytimg.com/vi/N9L75KJIktk/hqdefault.jpg',
+  },
+  {
+    title: 'Retina-Sprechstunde (Teil 1)',
+    embedUrl: 'https://www.youtube.com/embed/VjFzIsMXSnk',
+    thumbnailUrl: 'https://i.ytimg.com/vi/VjFzIsMXSnk/hqdefault.jpg',
+  },
+  {
+    title: 'Retina-Sprechstunde (Teil 2)',
+    embedUrl: 'https://www.youtube.com/embed/To78wfcSCJE',
+    thumbnailUrl: 'https://i.ytimg.com/vi/To78wfcSCJE/hqdefault.jpg',
+  },
+]
+
+const styles = `
+  :root {
+    --bg-1: #f8fbfb;
+    --bg-2: #f6f4f1;
+    --card: rgba(255,255,255,0.92);
+    --text: #1f2937;
+    --muted: #64748b;
+    --mint: #eef4f2;
+    --rose: #f5efe9;
+    --shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 44%, #fff 100%); }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; }
+  .container { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+  .header { position: sticky; top: 0; z-index: 30; border-bottom: 1px solid rgba(255,255,255,.7); background: rgba(255,255,255,.82); backdrop-filter: blur(14px); }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 16px 0; }
+  .eyebrow { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .24em; }
+  .brand-title { font-weight: 600; color: #0f172a; }
+  .nav { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nav a, .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; padding: 10px 16px; font-size: 14px; transition: .2s ease; }
+  .nav a:hover { background: #f1f5f9; }
+  .btn { border: none; cursor: pointer; }
+  .btn-dark { background: #0f172a; color: #fff; }
+  .btn-light { background: #fff; border: 1px solid #cbd5e1; color: #0f172a; }
+  .btn-light:hover { background: #f8fafc; }
+  .hero { display: grid; grid-template-columns: 1.03fr .97fr; gap: 40px; align-items: start; padding: 48px 0 56px; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid #e2e8f0; background: rgba(255,255,255,.92); color: var(--muted); font-size: 14px; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
+  h1 { margin: 24px 0 0; font-size: clamp(40px, 5vw, 64px); line-height: 1.03; letter-spacing: -.03em; font-weight: 600; color: #0f172a; }
+  .lead { margin-top: 24px; max-width: 760px; font-size: 20px; line-height: 1.8; color: var(--muted); }
+  .grid-2,.grid-3 { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .card { border: 1px solid rgba(255,255,255,.8); background: var(--card); border-radius: 2rem; box-shadow: var(--shadow); }
+  .card-body { padding: 24px; }
+  .soft-mint { background: var(--mint); }
+  .soft-rose { background: var(--rose); }
+  .icon-row { display:flex; gap:14px; align-items:flex-start; }
+  .icon-box { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 16px; background: #f1f5f9; display:flex; align-items:center; justify-content:center; color:#94a3b8; }
+  .photo-wrap { position: relative; align-self: start; }
+  .photo-glow { position:absolute; inset:0; border-radius:2rem; background: radial-gradient(circle at top right, #e7efec, transparent 38%), radial-gradient(circle at bottom left, #f3e8e0, transparent 30%); filter: blur(30px); }
+  .photo-frame { position:relative; overflow:hidden; border-radius:2rem; border:1px solid rgba(255,255,255,.8); background:#fff; box-shadow:0 20px 60px rgba(15,23,42,.12); aspect-ratio:4/5; width:min(100%, 380px); margin:0 auto; }
+  .photo-frame img { width:100%; height:100%; object-fit:cover; display:block; }
+  .photo-caption { margin-top:16px; text-align:center; font-size:20px; font-weight:600; color:#0f172a; }
+  section { padding: 36px 0; scroll-margin-top: 86px; }
+  .section-title { margin:0; font-size: clamp(32px, 3.5vw, 42px); line-height: 1.08; letter-spacing:-.03em; color:#0f172a; }
+  .section-text { margin-top:16px; max-width:760px; font-size:18px; line-height:1.8; color:var(--muted); }
+  .profile-focus, .vita-grid, .contact-grid, .legal-grid { display:grid; gap:24px; }
+  .profile-focus { grid-template-columns: .85fr 1.15fr; }
+  .vita-grid, .contact-grid, .legal-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .stack { display:grid; gap:12px; margin-top:24px; }
+  .stack-item { padding:16px; border-radius:20px; background: rgba(255,255,255,.75); line-height:1.75; color:#334155; }
+  .goal { padding:16px; color:#9a6a55; font-weight:600; line-height:1.75; }
+  .highlight-box { position:relative; overflow:hidden; min-height:260px; border-radius:2rem; border:1px solid rgba(255,255,255,.8); background:linear-gradient(135deg, #edf5f2, #fff 55%, #e9f1ef); }
+  .highlight-box::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at top right, rgba(255,255,255,.95), transparent 35%), radial-gradient(circle at bottom left, rgba(226,232,240,.55), transparent 38%); }
+  .highlight-label { position:absolute; left:22px; right:22px; bottom:22px; padding:16px; border-radius:20px; background:rgba(255,255,255,.9); backdrop-filter: blur(8px); text-align:center; font-weight:600; color:#0f172a; line-height:1.5; }
+  .inner-frame { margin-top:30px; overflow:hidden; border-radius:24px; border:1px solid #e2e8f0; background:#fff; }
+  .inner-list { display:grid; gap:12px; padding:12px; }
+  .inner-item { padding:16px 20px; border-radius:20px; background:rgba(255,255,255,.7); color:#334155; line-height:1.8; }
+  .inner-item strong { display:block; margin-bottom:4px; font-size:14px; color:var(--muted); }
+  .video-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:24px; margin-top:40px; }
+  .video-frame { aspect-ratio:16/9; background:#f1f5f9; }
+  .video-frame iframe { width:100%; height:100%; border:0; display:block; }
+  .video-placeholder {
+    position: relative;
+    aspect-ratio: 16/9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .video-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.48);
+  }
+  .video-placeholder-content {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+    padding: 28px;
+    text-align:center;
+    color:#fff;
+  }
+  .video-placeholder-title { font-size:20px; font-weight:600; color:#fff; }
+  .video-placeholder-text { margin-top:10px; max-width:460px; color:rgba(255,255,255,0.92); line-height:1.7; }
+  .video-activate { margin-top:18px; border:1px solid rgba(255,255,255,0.7); background:rgba(255,255,255,0.95); color:#0f172a; border-radius:999px; padding:12px 18px; font-size:14px; cursor:pointer; }
+  .video-activate:hover { background:#ffffff; }
+  .video-title { padding:22px 24px 24px; font-size:22px; line-height:1.4; font-weight:600; color:#0f172a; }
+  .note { margin-top:32px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:22px 24px; border-radius:24px; background:#0f172a; color:#fff; }
+  .note small { display:block; margin-top:4px; color:#cbd5e1; }
+  .privacy { margin-top:24px; padding:22px 24px; border-radius:24px; border:1px solid #e2e8f0; background:#fbfbfa; color:#475569; font-size:14px; line-height:1.75; }
+  .privacy h3 { margin:0 0 12px; font-size:18px; color:#0f172a; }
+  .privacy p { margin:12px 0 0; }
+  .privacy-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+  .legal-links { margin-top: 14px; color:#475569; }
+  .legal-links a { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 1024px) { .hero,.profile-focus,.vita-grid,.contact-grid,.legal-grid { grid-template-columns:1fr; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr 1fr; } }
+  @media (max-width: 760px) {
+    .container { width:min(100% - 28px, 1180px); }
+    .header-inner { display:grid; }
+    .nav { display:none; }
+    .grid-3,.grid-2,.video-grid { grid-template-columns:1fr; }
+    .note { flex-direction:column; align-items:flex-start; }
+    h1 { font-size:40px; }
+    .lead { font-size:18px; }
+    .photo-caption { font-size:18px; }
+    section { scroll-margin-top: 58px; }
+  }
+`
+
+function IconHospital() {
+  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 21V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14" /><path d="M9 21v-4h6v4" /><path d="M12 8v6" /><path d="M9 11h6" /></svg>
+}
+
+function App() {
+  const [activatedVideos, setActivatedVideos] = useState({})
+
+  const activateVideo = (title) => {
+    setActivatedVideos((current) => ({ ...current, [title]: true }))
+  }
+
+  const openCookieSettings = () => {
+    if (window.Cookiebot?.renew) {
+      window.Cookiebot.renew()
+    }
+  }
+
+  return (
+    <>
+      <style>{styles}</style>
+      <div className="header">
+        <div className="container header-inner">
+          <div>
+            <div className="eyebrow">Augenheilkunde</div>
+            <div className="brand-title">PD Dr. med. Jakob Siedlecki, FEBO</div>
+          </div>
+          <nav className="nav">
+            <a href="#schwerpunkte">Schwerpunkte</a>
+            <a href="#vita">Vita</a>
+            <a href="#videos">Videos</a>
+            <a href="#kontakt" className="btn btn-dark">Kontakt</a>
+            <a href="#impressum">Impressum</a>
+          </nav>
+        </div>
+      </div>
+      <main className="container">
+        <section className="hero">
+          <div>
+            <div className="badge">Für Patientinnen und Patienten</div>
+            <h1>Augenheilkunde mit Sorgfalt,<br />Präzision und persönlicher Begleitung</h1>
+            <p className="lead">Ich begleite Patientinnen und Patienten mit moderner Diagnostik, präziser operativer Expertise und einer verständlichen Aufklärung – von der ersten Beratung bis zur Nachsorge.</p>
+            <div className="grid-2" style={{ marginTop: 32 }}>
+              {positions.map((item) => (
+                <div className="card" key={item}>
+                  <div className="card-body icon-row">
+                    <div className="icon-box"><IconHospital /></div>
+                    <div>{item}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 32 }}>
+              <a className="btn btn-dark" href="#kontakt">Termin &amp; Kontakt</a>
+              <a className="btn btn-light" href="#videos">Videos</a>
+            </div>
+          </div>
+          <div className="photo-wrap">
+            <div className="photo-glow" />
+            <div className="photo-frame"><img src="/jakob-siedlecki.jpeg" alt="PD Dr. med. Jakob Siedlecki, FEBO" /></div>
+            <div className="photo-caption">PD Dr. med. Jakob Siedlecki, FEBO</div>
+          </div>
+        </section>
+
+        <section className="profile-focus">
+          <div className="card soft-rose"><div className="card-body"><div className="eyebrow">Profil</div><div style={{ marginTop: 12, fontSize: 28, fontWeight: 600, color: '#0f172a' }}>PD Dr. med. Jakob Siedlecki, FEBO</div><p style={{ marginTop: 12, color: '#64748b', lineHeight: 1.75 }}>Augenarzt für konservative und operative Augenheilkunde</p><div className="stack"><div className="stack-item">Oberarzt an der Augenklinik des LMU Klinikums München</div><div className="stack-item">Spezialisierung in mikroinvasiver Augenchirurgie (&gt;15,000 Eingriffe)</div><div className="stack-item">Wissenschaftlicher Schwerpunkt in Augenchirurgie, OCT-Diagnostik und Makula-Therapie</div><div className="goal">Mein Ziel: Ein gemeinsamer Weg zur Lösung Ihres Problems</div></div></div></div>
+          <div className="card"><div className="card-body"><div style={{ fontSize: 22, fontWeight: 600, color: '#0f172a' }}>Behandlung mit Fokus auf Präzision</div><p style={{ marginTop: 14, color: '#64748b', lineHeight: 1.9 }}>Mein Schwerpunkt liegt auf einer klaren, evidenzbasierten Augenheilkunde mit besonderem Fokus auf moderner Diagnostik und Bildgebung, minimalinvasiver Augenchirurgie sowie der Langzeitbetreuung chronischer Erkrankungen (Grüner Star, Hornhauterkrankungen, u.v.m.).</p><div className="grid-2" style={{ marginTop: 24 }}><div className="stack-item" style={{ background: '#f8fafc' }}>Sorgfältige Diagnostik und präzise Einschätzung</div><div className="stack-item" style={{ background: '#f8fafc' }}>Patientenverständliche Erklärung aller Schritte</div><div className="stack-item" style={{ background: '#f8fafc' }}>Individuelle Therapieempfehlung statt Standardlösung</div><div className="stack-item" style={{ background: '#f8fafc' }}>Begleitung vor, während und nach Eingriffen</div></div></div></div>
+        </section>
+
+        <section id="schwerpunkte">
+          <div className="eyebrow">Schwerpunkte</div>
+          <h2 className="section-title">Wobei ich Sie unterstütze</h2>
+          <div className="grid-3" style={{ marginTop: 40 }}>{highlights.map((h) => <div className="card" key={h}><div className="card-body"><div className="highlight-box"><div className="highlight-label">{h}</div></div></div></div>)}</div>
+        </section>
+
+        <section id="vita">
+          <div className="eyebrow">Vita</div>
+          <h2 className="section-title">Laufbahn und Wissenschaft</h2>
+          <div className="vita-grid" style={{ marginTop: 40 }}>
+            <div className="card soft-mint"><div className="card-body"><div style={{ fontSize: 30, fontWeight: 600, color: '#0f172a' }}>Medizinische Laufbahn</div><div className="inner-frame"><div className="inner-list">{timeline.map(([year, text]) => <div className="inner-item" key={year + text}><strong>{year}</strong>{text}</div>)}</div></div></div></div>
+            <div className="card soft-mint"><div className="card-body"><div style={{ fontSize: 30, fontWeight: 600, color: '#0f172a' }}>Lehre, Forschung und Publikationen</div><div className="inner-frame"><div className="inner-list">{research.map((item, idx) => <div className="inner-item" key={idx}>{idx === 2 ? <>Wissenschaftliche Publikationstätigkeit (&gt;100 Publikationen in Fachzeitschriften mit Peer-Review) (<a href="https://scholar.google.com/citations?user=ZWFYojEAAAAJ&hl=de" target="_blank" rel="noreferrer">Google Scholar</a>)</> : item}</div>)}</div></div></div></div>
+          </div>
+        </section>
+
+        <section id="videos">
+          <div className="eyebrow">Videos</div>
+          <h2 className="section-title">Videos</h2>
+          <div className="video-grid">
+            {videos.map(({ title, embedUrl, thumbnailUrl }) => {
+              const isActivated = activatedVideos[title]
+              return (
+                <div className="card" key={title}>
+                  <div className="video-frame">
+                    {isActivated ? (
+                      <iframe src={embedUrl} title={title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                    ) : (
+                      <div className="video-placeholder" style={{ backgroundImage: `url(${thumbnailUrl})` }}>
+                        <div className="video-placeholder-content">
+                          <div className="video-placeholder-title">Externer YouTube-Inhalt</div>
+                          <div className="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div>
+                          <button type="button" className="video-activate" onClick={() => activateVideo(title)}>Video aktivieren</button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="video-title">{title}</div>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        <section id="kontakt">
+          <div className="eyebrow">Kontakt</div>
+          <h2 className="section-title">Standorte und Terminmöglichkeiten</h2>
+          <p className="section-text">Für Terminwünsche oder organisatorische Fragen kann die jeweilige Einrichtung direkt kontaktiert werden.</p>
+          <div className="contact-grid">
+            <div className="card"><div className="card-body"><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Praxis Dr. Vlachou-Vaterrodt</div><div style={{ marginTop: 14, lineHeight: 1.8, color: '#334155' }}>Südliche Münchner Straße 20, 82031 Grünwald<br />089 / 649 29 69<br />info@augen-arzt.de</div><div style={{ marginTop: 16 }}><a className="btn btn-dark" href="https://augen-arzt.de/" target="_blank" rel="noreferrer">Praxis-Website</a></div></div></div>
+            <div className="card"><div className="card-body"><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>LMU Augenklinik</div><div style={{ marginTop: 14, lineHeight: 1.8, color: '#334155' }}>Mathildenstraße 8, 80336 München<br />089 / 4400-53811<br />augenklinik.termine@med.uni-muenchen.de</div><div style={{ marginTop: 16 }}><a className="btn btn-dark" href="https://www.lmu-klinikum.de/augenklinik/klinik-kompakt/arzte-wiss-mitarbeiter/b22e75136d9e4888" target="_blank" rel="noreferrer">LMU-Profil</a></div></div></div>
+          </div>
+          <div className="note"><div><strong>Hinweis</strong><small>Diese Website dient der Information und ersetzt keine individuelle ärztliche Untersuchung. Bei akuten Beschwerden sollte zeitnah augenärztliche Hilfe in Anspruch genommen werden.</small></div><div>Terminvergabe über die jeweilige Einrichtung</div></div>
+        </section>
+
+        <section id="impressum">
+          <div className="eyebrow">Impressum & Hinweise</div>
+          <h2 className="section-title">Impressum und medizinischer Disclaimer</h2>
+          <p className="section-text">Anbieterangaben und rechtliche Hinweise für den Webauftritt.</p>
+          <div className="legal-grid">
+            <div className="card"><div className="card-body" style={{ lineHeight: 1.8 }}><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Impressum</div><div style={{ marginTop: 14 }}>PD Dr. med. Jakob Siedlecki<br />Südliche Münchner Straße 20, 82031 Grünwald<br />E-Mail: jakob@eyepinion.de</div><div style={{ marginTop: 18 }}><strong>Berufsbezeichnung:</strong> Arzt<br /><strong>Verliehen in:</strong> Bundesrepublik Deutschland<br /><strong>Zuständige Ärztekammer:</strong> Bayerische Landesärztekammer<br /><strong>Zuständige Kassenärztliche Vereinigung:</strong> Kassenärztliche Vereinigung Bayerns<br /><strong>Aufsichtsbehörde:</strong><br />Bayerische Landesärztekammer<br />Mühlbaurstraße 16, 81677 München<br /><a href="https://www.blaek.de" target="_blank" rel="noreferrer">blaek.de</a></div><div style={{ marginTop: 18 }}><strong>Berufsrechtliche Regelungen:</strong><br />Bundesärzteordnung (BÄO)<br />Berufsordnung für die Ärzte Bayerns<br />Heilberufe-Kammergesetz (HKaG)<br />Gebührenordnung für Ärzte (GOÄ)</div><div className="legal-links">Die berufsrechtlichen Regelungen sind abrufbar über die Bayerische Landesärztekammer sowie über die amtlichen Gesetzesportale des Bundes und des Freistaats Bayern.</div></div></div>
+            <div className="card"><div className="card-body" style={{ lineHeight: 1.8 }}><div style={{ fontSize: 24, fontWeight: 600, color: '#0f172a' }}>Medizinischer Disclaimer</div><div style={{ marginTop: 14 }}>Die Inhalte dieser Website dienen ausschließlich der allgemeinen Information. Sie ersetzen keine individuelle ärztliche Beratung, Untersuchung oder Behandlung.</div><div style={{ marginTop: 14 }}>Aus den bereitgestellten Informationen kann keine Selbstdiagnose oder Selbstbehandlung abgeleitet werden. Bei akuten Beschwerden oder medizinischen Fragen sollte stets eine augenärztliche Untersuchung erfolgen.</div><div style={{ marginTop: 14 }}>Trotz sorgfältiger inhaltlicher Kontrolle wird keine Gewähr für Aktualität, Vollständigkeit und Richtigkeit der allgemein bereitgestellten Informationen übernommen. Für Inhalte externer Links sind ausschließlich deren Betreiber verantwortlich.</div></div></div>
+          </div>
+          <div className="privacy"><h3>Datenschutzhinweise</h3><p>Verantwortlich für die Datenverarbeitung auf dieser Website ist PD Dr. med. Jakob Siedlecki, Südliche Münchner Straße 20, 82031 Grünwald, E-Mail: jakob@eyepinion.de.</p><p>Beim Aufruf dieser Website verarbeitet der Hosting-Anbieter technisch erforderliche Verbindungsdaten und Server-Logfiles, insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, Referrer, Browsertyp sowie Betriebssystem, um die Website sicher, stabil und funktionsfähig bereitzustellen. Die Verarbeitung erfolgt zur Wahrung berechtigter Interessen an der sicheren Bereitstellung des Online-Angebots.</p><p><strong>Hosting und technische Infrastruktur</strong><br />Diese Website wird gehostet bei Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA.</p><p>Beim Aufruf dieser Website übermittelt Ihr Browser automatisch technische Daten an die Server von Vercel, insbesondere IP-Adresse, Browsertyp, Betriebssystem, aufgerufene Seite sowie Datum und Uhrzeit des Zugriffs. Diese Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem technisch zuverlässigen und sicheren Betrieb der Website).</p><p>Vercel Inc. ist ein US-amerikanisches Unternehmen. Die Datenübertragung in die USA erfolgt auf Grundlage der Standardvertragsklauseln der EU-Kommission gemäß Art. 46 Abs. 2 lit. c DSGVO. Vercel hat sich zur Einhaltung dieser Klauseln verpflichtet. Den Auftragsverarbeitungsvertrag (Data Processing Agreement) mit Vercel habe ich unter <a href="https://vercel.com/legal/dpa" target="_blank" rel="noreferrer">vercel.com/legal/dpa</a> abgeschlossen.</p><p>Weitere Informationen finden Sie in der Datenschutzerklärung von Vercel: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noreferrer">vercel.com/legal/privacy-policy</a></p><p><strong>Quellcode-Verwaltung (GitHub)</strong><br />Der Quellcode dieser Website wird in einem Repository bei GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA, verwaltet. GitHub verarbeitet dabei technische Metadaten des Repositories (Commits, Zeitstempel, Account-Informationen). Personenbezogene Daten von Website-Besuchern werden über GitHub nicht verarbeitet. Die Nutzung von GitHub erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.</p><p>GitHub ist ein US-amerikanisches Unternehmen (Tochtergesellschaft von Microsoft). Die Datenübertragung erfolgt auf Grundlage der Standardvertragsklauseln gemäß Art. 46 Abs. 2 lit. c DSGVO.</p><p>Weitere Informationen: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noreferrer">docs.github.com/en/site-policy/privacy-policies/github-privacy-statement</a></p><p>Diese Website verwendet ein Consent-Management-Tool von Cookiebot. Dabei werden Informationen gespeichert, um Einwilligungen oder Ablehnungen rechtssicher zu dokumentieren und die gewählten Datenschutzeinstellungen umzusetzen.</p><p>Wenn Sie per E-Mail Kontakt aufnehmen, werden die von Ihnen übermittelten Daten ausschließlich zur Bearbeitung Ihrer Anfrage verarbeitet. Die Verarbeitung erfolgt zur Durchführung vorvertraglicher Maßnahmen oder zur Bearbeitung Ihres Anliegens.</p><p>Auf dieser Website sind Videos von YouTube eingebunden. Die Videos werden nicht automatisch geladen, sondern erst nach aktiver Freigabe durch den Nutzer. Beim Aktivieren oder Abspielen können personenbezogene Daten, insbesondere die IP-Adresse sowie Nutzungsdaten, an YouTube beziehungsweise Google übermittelt und dort weiterverarbeitet werden.</p><p>Alle abgebildeten intraoperativen Aufnahmen wurden zum Schutz der Patientendaten anonymisiert (biometrische Merkmale KI-gestützt entfernt).</p><p>Sie haben nach Maßgabe der gesetzlichen Vorschriften insbesondere das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Widerspruch sowie Datenübertragbarkeit. Zudem besteht ein Beschwerderecht bei einer Datenschutzaufsichtsbehörde.</p><p>Datenschutzeinstellungen können jederzeit erneut geöffnet und angepasst werden.</p><div className="privacy-actions"><button type="button" className="btn btn-light" onClick={openCookieSettings}>Datenschutzeinstellungen</button></div></div>
+        </section>
+      </main>
+    </>
+  )
+}
+
+export default App
