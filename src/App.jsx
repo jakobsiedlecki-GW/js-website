@@ -12,6 +12,9 @@ const highlights = [
   'Glaukomdiagnostik und -therapie',
   'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen u.v.m.)',
   'Therapie des Trockenen Auges',
+  'Lasertherapie',
+  'Hornhauterkrankungen',
+  'Zweitmeinung',
 ]
 
 const timeline = [
