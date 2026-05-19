@@ -27,14 +27,8 @@
       }
       .ai-image-notice {
         margin-top: 18px;
-        max-width: 760px;
-        padding: 14px 18px;
-        border: 1px solid #e2e8f0;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.78);
-        color: #64748b;
-        font-size: 14px;
-        line-height: 1.7;
+        color: #475569;
+        line-height: 1.8;
       }
       .ai-image-notice strong {
         color: #0f172a;
@@ -58,16 +52,17 @@
         }
 
         const addAiImageNotice = () => {
-          const section = document.getElementById('schwerpunkte')
-          if (!section || section.querySelector('.ai-image-notice')) return
+          const legalSection = document.getElementById('impressum')
+          if (!legalSection || legalSection.querySelector('.ai-image-notice')) return
 
-          const title = section.querySelector('.section-title')
-          if (!title) return
+          const legalCards = [...legalSection.querySelectorAll('.card-body')]
+          const legalNoticeCard = legalCards.find((card) => card.textContent.includes('Rechtliche Hinweise'))
+          if (!legalNoticeCard) return
 
           const notice = document.createElement('div')
           notice.className = 'ai-image-notice'
-          notice.innerHTML = '<strong>Hinweis zu Bildmaterial:</strong> Bei allen Fotos und Abbildungen wurden mithilfe von KI patientenindividuelle Merkmale entfernt beziehungsweise anonymisiert.'
-          title.insertAdjacentElement('afterend', notice)
+          notice.innerHTML = '<strong>Hinweis zu Bildmaterial</strong><br />Bei allen Fotos und Abbildungen wurden mithilfe von KI patientenindividuelle Merkmale entfernt beziehungsweise anonymisiert.'
+          legalNoticeCard.appendChild(notice)
         }
 
         const applyFocusImages = () => {
