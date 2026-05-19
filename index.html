@@ -48,8 +48,13 @@
           'Glaukomdiagnostik und -therapie': '/GL.png',
           'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen u.v.m.)': '/MA.png',
           'Therapie des Trockenen Auges': '/TR.png',
+          'Lasertherapie': '/LA.png',
           'Hornhauterkrankungen': '/HH.png',
         }
+
+        const compactHighlightLabels = new Set([
+          'Zweitmeinung',
+        ])
 
         const addAiImageNotice = () => {
           const legalSection = document.getElementById('impressum')
@@ -67,13 +72,19 @@
 
         const applyFocusImages = () => {
           document.querySelectorAll('.highlight-label').forEach((label) => {
-            const imageUrl = focusImages[label.textContent.trim()]
+            const labelText = label.textContent.trim()
+            const imageUrl = focusImages[labelText]
             const box = label.closest('.highlight-box')
 
-            if (!imageUrl || !box) return
+            if (!box) return
 
-            box.classList.add('with-image')
-            box.style.backgroundImage = `url("${imageUrl}")`
+            if (imageUrl || compactHighlightLabels.has(labelText)) {
+              box.classList.add('with-image')
+            }
+
+            if (imageUrl) {
+              box.style.backgroundImage = `url("${imageUrl}")`
+            }
           })
 
           addAiImageNotice()
