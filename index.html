@@ -41,12 +41,16 @@
     <script type="module" src="/src/main.jsx"></script>
     <script>
       (() => {
+        const highlightTextReplacements = {
+          'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen u.v.m.)': 'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen)',
+        }
+
         const focusImages = {
           'Linsenchirurgie (Grauer Star, "Katarakt")': '/GR.png',
           'Makula-Therapie (IVOM, Laser, Diagnostik)': '/IV.png',
           'Augenärztliche Vorsorge (Sehfehler, Brillenverordnung u.v.m.)': '/VO.png',
           'Glaukomdiagnostik und -therapie': '/GL.png',
-          'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen u.v.m.)': '/MA.png',
+          'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen)': '/MA.png',
           'Therapie des Trockenen Auges': '/TR.png',
           'Lasertherapie': '/LA.png',
           'Hornhauterkrankungen': '/HH.png',
@@ -91,9 +95,14 @@
 
         const applyFocusImages = () => {
           document.querySelectorAll('.highlight-label').forEach((label) => {
-            const labelText = label.textContent.trim()
+            const originalLabelText = label.textContent.trim()
+            const labelText = highlightTextReplacements[originalLabelText] || originalLabelText
             const imageUrl = focusImages[labelText]
             const box = label.closest('.highlight-box')
+
+            if (labelText !== originalLabelText) {
+              label.textContent = labelText
+            }
 
             if (!box || !imageUrl) return
 
