@@ -62,11 +62,23 @@
         }
 
         const imageNoticeText = 'Bei Fotos und Abbildungen können anonymisierte oder synthetisch ergänzte/veränderte Darstellungen vorliegen. Patientenindividuelle Merkmale wurden entfernt oder mithilfe von KI ersetzt. Eine Ähnlichkeit mit realen Personen ist nicht beabsichtigt.'
+        const profileFocusText = 'Mein Schwerpunkt liegt auf evidenzbasierter Augenheilkunde mit besonderem Fokus auf moderner Diagnostik und Bildgebung, minimalinvasiver Augenchirurgie sowie der Langzeitbetreuung chronischer Erkrankungen (Altersbedingte Makuladegeneration, Grüner Star, Hornhauterkrankungen, u.v.m.).'
 
         const getLegalCards = () => {
           const legalSection = document.getElementById('impressum')
           if (!legalSection) return []
           return [...legalSection.querySelectorAll('.card-body')]
+        }
+
+        const updateProfileFocusText = () => {
+          const headings = [...document.querySelectorAll('div')]
+          const heading = headings.find((item) => item.textContent.trim() === 'Behandlung mit Fokus auf Präzision')
+          if (!heading) return
+
+          const paragraph = heading.parentElement?.querySelector('p')
+          if (paragraph) {
+            paragraph.textContent = profileFocusText
+          }
         }
 
         const addLiabilityInsuranceNotice = () => {
@@ -131,6 +143,7 @@
             box.style.backgroundImage = `url("${imageUrl}")`
           })
 
+          updateProfileFocusText()
           addLiabilityInsuranceNotice()
           addAiImageNotice()
           updateLegalFooterLinks()
