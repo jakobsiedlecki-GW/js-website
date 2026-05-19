@@ -187,7 +187,7 @@ function IconHospital() {
 
 function App() {
   const [activatedVideos, setActivatedVideos] = useState({})
-  const [showPrivacy, setShowPrivacy] = useState(false)
+  const [showPrivacy, setShowPrivacy] = useState(true)
 
   const activateVideo = (title) => {
     setActivatedVideos((current) => ({ ...current, [title]: true }))
