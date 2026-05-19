@@ -50,11 +50,8 @@
           'Therapie des Trockenen Auges': '/TR.png',
           'Lasertherapie': '/LA.png',
           'Hornhauterkrankungen': '/HH.png',
+          'Zweitmeinung': '/ZW.png',
         }
-
-        const compactHighlightLabels = new Set([
-          'Zweitmeinung',
-        ])
 
         const addAiImageNotice = () => {
           const legalSection = document.getElementById('impressum')
@@ -76,15 +73,10 @@
             const imageUrl = focusImages[labelText]
             const box = label.closest('.highlight-box')
 
-            if (!box) return
+            if (!box || !imageUrl) return
 
-            if (imageUrl || compactHighlightLabels.has(labelText)) {
-              box.classList.add('with-image')
-            }
-
-            if (imageUrl) {
-              box.style.backgroundImage = `url("${imageUrl}")`
-            }
+            box.classList.add('with-image')
+            box.style.backgroundImage = `url("${imageUrl}")`
           })
 
           addAiImageNotice()
