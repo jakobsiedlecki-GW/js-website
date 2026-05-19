@@ -5,9 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PD Dr. med. Jakob Siedlecki, FEBO</title>
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="a4803ca2-b2e7-41be-b470-a25a10eb4dad" data-blockingmode="auto" type="text/javascript"></script>
+    <style>
+      .highlight-box.with-image {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      .highlight-box.with-image::before {
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.08), rgba(15, 23, 42, 0.18));
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      (() => {
+        const focusImages = {
+          'Linsenchirurgie (Grauer Star, "Katarakt")': '/GR.png',
+          'Makula-Therapie (IVOM, Laser, Diagnostik)': '/IV.png',
+          'Augenärztliche Vorsorge (Sehfehler, Brillenverordnung u.v.m.)': '/VO.png',
+          'Glaukomdiagnostik und -therapie': '/GL.png',
+          'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen u.v.m.)': '/MA.png',
+          'Therapie des Trockenen Auges': '/TR.png',
+          'Hornhauterkrankungen': '/HH.png',
+        }
+
+        const applyFocusImages = () => {
+          document.querySelectorAll('.highlight-label').forEach((label) => {
+            const imageUrl = focusImages[label.textContent.trim()]
+            const box = label.closest('.highlight-box')
+
+            if (!imageUrl || !box) return
+
+            box.classList.add('with-image')
+            box.style.backgroundImage = `url("${imageUrl}")`
+          })
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', applyFocusImages)
+        } else {
+          applyFocusImages()
+        }
+
+        window.setTimeout(applyFocusImages, 250)
+      })()
+    </script>
   </body>
 </html>
