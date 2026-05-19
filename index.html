@@ -25,12 +25,14 @@
         line-height: 1.35;
         background: rgba(255, 255, 255, 0.82);
       }
-      .ai-image-notice {
+      .ai-image-notice,
+      .liability-insurance-notice {
         margin-top: 18px;
         color: #475569;
         line-height: 1.8;
       }
-      .ai-image-notice strong {
+      .ai-image-notice strong,
+      .liability-insurance-notice strong {
         color: #0f172a;
         font-weight: 600;
       }
@@ -59,18 +61,35 @@
           'Zweitmeinung': '/ZW.png',
         }
 
-        const addAiImageNotice = () => {
-          const legalSection = document.getElementById('impressum')
-          if (!legalSection || legalSection.querySelector('.ai-image-notice')) return
+        const imageNoticeText = 'Bei Fotos und Abbildungen können anonymisierte oder synthetisch ergänzte/veränderte Darstellungen vorliegen. Patientenindividuelle Merkmale wurden entfernt oder mithilfe von KI ersetzt. Eine Ähnlichkeit mit realen Personen ist nicht beabsichtigt.'
 
-          const legalCards = [...legalSection.querySelectorAll('.card-body')]
-          const legalNoticeCard = legalCards.find((card) => card.textContent.includes('Rechtliche Hinweise'))
-          if (!legalNoticeCard) return
+        const getLegalCards = () => {
+          const legalSection = document.getElementById('impressum')
+          if (!legalSection) return []
+          return [...legalSection.querySelectorAll('.card-body')]
+        }
+
+        const addLiabilityInsuranceNotice = () => {
+          const impressumCard = getLegalCards().find((card) => card.textContent.includes('Gesetzliche Pflichtangaben'))
+          if (!impressumCard || impressumCard.querySelector('.liability-insurance-notice')) return
 
           const notice = document.createElement('div')
-          notice.className = 'ai-image-notice'
-          notice.innerHTML = '<strong>Hinweis zu Bildmaterial</strong><br />Bei allen Fotos und Abbildungen wurden mithilfe von KI patientenindividuelle Merkmale entfernt beziehungsweise anonymisiert.'
-          legalNoticeCard.appendChild(notice)
+          notice.className = 'liability-insurance-notice'
+          notice.innerHTML = '<strong>Berufshaftpflichtversicherung</strong><br />Deutsche Ärzteversicherung Allgemeine<br />Zweigniederlassung der AXA Versicherung AG<br />Colonia-Allee 10-20<br />51067 Köln<br />Telefon: 0221/148-22700<br />Fax: 0221/148-21442'
+          impressumCard.appendChild(notice)
+        }
+
+        const addAiImageNotice = () => {
+          const legalNoticeCard = getLegalCards().find((card) => card.textContent.includes('Rechtliche Hinweise'))
+          if (!legalNoticeCard) return
+
+          let notice = legalNoticeCard.querySelector('.ai-image-notice')
+          if (!notice) {
+            notice = document.createElement('div')
+            notice.className = 'ai-image-notice'
+            legalNoticeCard.appendChild(notice)
+          }
+          notice.innerHTML = '<strong>Hinweis zu Bildmaterial</strong><br />' + imageNoticeText
         }
 
         const updateLegalFooterLinks = () => {
@@ -112,6 +131,7 @@
             box.style.backgroundImage = `url("${imageUrl}")`
           })
 
+          addLiabilityInsuranceNotice()
           addAiImageNotice()
           updateLegalFooterLinks()
         }
