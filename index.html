@@ -25,6 +25,13 @@
         line-height: 1.35;
         background: rgba(255, 255, 255, 0.82);
       }
+      .google-scholar-visible-link {
+        display: block;
+        margin-top: 8px;
+        color: #2563eb;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
       .ai-image-notice,
       .liability-insurance-notice {
         margin-top: 18px;
@@ -79,6 +86,25 @@
           if (paragraph) {
             paragraph.textContent = profileFocusText
           }
+        }
+
+        const updateGoogleScholarLink = () => {
+          const link = document.querySelector('a[href*="scholar.google.com/citations"]')
+          if (!link) return
+
+          const previousNode = link.previousSibling
+          const nextNode = link.nextSibling
+
+          if (previousNode?.nodeType === Node.TEXT_NODE) {
+            previousNode.textContent = previousNode.textContent.replace(/\s*\($/, '')
+          }
+
+          if (nextNode?.nodeType === Node.TEXT_NODE) {
+            nextNode.textContent = nextNode.textContent.replace(/^\)/, '')
+          }
+
+          link.textContent = 'Link zu Google Scholar'
+          link.classList.add('google-scholar-visible-link')
         }
 
         const addLiabilityInsuranceNotice = () => {
@@ -144,6 +170,7 @@
           })
 
           updateProfileFocusText()
+          updateGoogleScholarLink()
           addLiabilityInsuranceNotice()
           addAiImageNotice()
           updateLegalFooterLinks()
