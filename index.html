@@ -3,68 +3,187 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Offline = TRUE</title>
+    <title>PD Dr. med. Jakob Siedlecki, FEBO</title>
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="a4803ca2-b2e7-41be-b470-a25a10eb4dad" data-blockingmode="auto" type="text/javascript"></script>
     <style>
-      :root {
-        color-scheme: light dark;
-        --bg: #0f172a;
-        --text: #e5e7eb;
-        --muted: #94a3b8;
-        --accent: #38bdf8;
+      .highlight-box.with-image {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
       }
-
-      * {
-        box-sizing: border-box;
+      .highlight-box.with-image::before {
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.08), rgba(15, 23, 42, 0.18));
       }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: radial-gradient(circle at top, #1e293b 0%, var(--bg) 55%);
-        color: var(--text);
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      .highlight-box.with-image .highlight-label {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        width: auto;
+        padding: 9px 13px;
+        border-radius: 14px;
+        font-size: 14px;
+        line-height: 1.35;
+        background: rgba(255, 255, 255, 0.82);
       }
-
-      main {
-        width: min(90vw, 720px);
-        padding: 48px;
-        border: 1px solid rgba(148, 163, 184, 0.28);
-        border-radius: 28px;
-        background: rgba(15, 23, 42, 0.76);
-        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
-      }
-
-      .status {
-        margin: 0;
-        font-size: clamp(32px, 8vw, 82px);
-        line-height: 1;
-        letter-spacing: -0.06em;
-      }
-
-      .label {
-        color: var(--muted);
-      }
-
-      .value {
-        color: var(--accent);
+      .google-scholar-visible-link {
+        display: block;
+        margin-top: 8px;
+        color: #2563eb;
         text-decoration: underline;
-        text-underline-offset: 0.12em;
+        text-underline-offset: 3px;
       }
-
-      .hint {
-        margin: 24px 0 0;
-        color: var(--muted);
-        font-size: clamp(14px, 2vw, 18px);
-        line-height: 1.7;
+      .ai-image-notice,
+      .liability-insurance-notice {
+        margin-top: 18px;
+        color: #475569;
+        line-height: 1.8;
+      }
+      .ai-image-notice strong,
+      .liability-insurance-notice strong {
+        color: #0f172a;
+        font-weight: 600;
       }
     </style>
   </head>
   <body>
-    <main aria-label="Website-Status">
-      <h1 class="status"><span class="label">Offline =</span> <span class="value">TRUE</span></h1>
-      <p class="hint">Diese Website ist vorübergehend offline.</p>
-    </main>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      (() => {
+        const highlightTextReplacements = {
+          'Linsenchirurgie (Grauer Star, "Katarakt")': 'Linsenchirurgie (Grauer Star)',
+          'Glaukomdiagnostik und -therapie': 'Betreuung bei Glaukom (Grüner Star)',
+          'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen u.v.m.)': 'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen)',
+        }
+
+        const focusImages = {
+          'Linsenchirurgie (Grauer Star)': '/GR.png',
+          'Makula-Therapie (IVOM, Laser, Diagnostik)': '/IV.png',
+          'Augenärztliche Vorsorge (Sehfehler, Brillenverordnung u.v.m.)': '/VO.png',
+          'Betreuung bei Glaukom (Grüner Star)': '/GL.png',
+          'Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen)': '/MA.png',
+          'Therapie des Trockenen Auges': '/TR.png',
+          'Lasertherapie': '/LA.png',
+          'Hornhauterkrankungen': '/HH.png',
+          'Zweitmeinung': '/ZW.png',
+        }
+
+        const imageNoticeText = 'Bei Fotos und Abbildungen können anonymisierte oder synthetisch ergänzte/veränderte Darstellungen vorliegen. Patientenindividuelle Merkmale wurden entfernt oder mithilfe von KI ersetzt. Eine Ähnlichkeit mit realen Personen ist nicht beabsichtigt.'
+        const profileFocusText = 'Mein Schwerpunkt liegt auf evidenzbasierter Augenheilkunde mit besonderem Fokus auf moderner Diagnostik und Bildgebung, minimalinvasiver Augenchirurgie sowie der Langzeitbetreuung chronischer Erkrankungen (Altersbedingte Makuladegeneration, Grüner Star, Hornhauterkrankungen, u.v.m.).'
+
+        const getLegalCards = () => {
+          const legalSection = document.getElementById('impressum')
+          if (!legalSection) return []
+          return [...legalSection.querySelectorAll('.card-body')]
+        }
+
+        const updateProfileFocusText = () => {
+          const headings = [...document.querySelectorAll('div')]
+          const heading = headings.find((item) => item.textContent.trim() === 'Behandlung mit Fokus auf Präzision')
+          if (!heading) return
+
+          const paragraph = heading.parentElement?.querySelector('p')
+          if (paragraph) {
+            paragraph.textContent = profileFocusText
+          }
+        }
+
+        const updateGoogleScholarLink = () => {
+          const link = document.querySelector('a[href*="scholar.google.com/citations"]')
+          if (!link) return
+
+          const previousNode = link.previousSibling
+          const nextNode = link.nextSibling
+
+          if (previousNode?.nodeType === Node.TEXT_NODE) {
+            previousNode.textContent = previousNode.textContent.replace(/\s*\($/, '')
+          }
+
+          if (nextNode?.nodeType === Node.TEXT_NODE) {
+            nextNode.textContent = nextNode.textContent.replace(/^\)/, '')
+          }
+
+          link.textContent = 'Link zu Google Scholar'
+          link.classList.add('google-scholar-visible-link')
+        }
+
+        const addLiabilityInsuranceNotice = () => {
+          const impressumCard = getLegalCards().find((card) => card.textContent.includes('Gesetzliche Pflichtangaben'))
+          if (!impressumCard || impressumCard.querySelector('.liability-insurance-notice')) return
+
+          const notice = document.createElement('div')
+          notice.className = 'liability-insurance-notice'
+          notice.innerHTML = '<strong>Berufshaftpflichtversicherung</strong><br />Deutsche Ärzteversicherung<br />Allgemeine Zweigniederlassung der AXA Versicherung AG<br />Colonia-Allee 10-20<br />51067 Köln<br />Telefon: 0221/148-22700<br />Fax: 0221/148-21442'
+          impressumCard.appendChild(notice)
+        }
+
+        const addAiImageNotice = () => {
+          const legalNoticeCard = getLegalCards().find((card) => card.textContent.includes('Rechtliche Hinweise'))
+          if (!legalNoticeCard) return
+
+          let notice = legalNoticeCard.querySelector('.ai-image-notice')
+          if (!notice) {
+            notice = document.createElement('div')
+            notice.className = 'ai-image-notice'
+            legalNoticeCard.appendChild(notice)
+          }
+          notice.innerHTML = '<strong>Hinweis zu Bildmaterial</strong><br />' + imageNoticeText
+        }
+
+        const updateLegalFooterLinks = () => {
+          const footer = document.querySelector('.legal-footnote')
+          if (!footer) return
+
+          const links = footer.querySelectorAll('a, button')
+          links.forEach((item) => {
+            if (item.textContent.trim() === 'Impressum') {
+              const link = document.createElement('a')
+              link.href = '/impressum.html'
+              link.textContent = 'Impressum'
+              item.replaceWith(link)
+            }
+
+            if (item.textContent.trim() === 'Datenschutz') {
+              const link = document.createElement('a')
+              link.href = '/datenschutz.html'
+              link.textContent = 'Datenschutz'
+              item.replaceWith(link)
+            }
+          })
+        }
+
+        const applyFocusImages = () => {
+          document.querySelectorAll('.highlight-label').forEach((label) => {
+            const originalLabelText = label.textContent.trim()
+            const labelText = highlightTextReplacements[originalLabelText] || originalLabelText
+            const imageUrl = focusImages[labelText]
+            const box = label.closest('.highlight-box')
+
+            if (labelText !== originalLabelText) {
+              label.textContent = labelText
+            }
+
+            if (!box || !imageUrl) return
+
+            box.classList.add('with-image')
+            box.style.backgroundImage = `url("${imageUrl}")`
+          })
+
+          updateProfileFocusText()
+          updateGoogleScholarLink()
+          addLiabilityInsuranceNotice()
+          addAiImageNotice()
+          updateLegalFooterLinks()
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', applyFocusImages)
+        } else {
+          applyFocusImages()
+        }
+
+        window.setTimeout(applyFocusImages, 250)
+      })()
+    </script>
   </body>
 </html>
