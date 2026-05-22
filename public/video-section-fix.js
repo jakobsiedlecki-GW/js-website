@@ -19,6 +19,21 @@
     frame.appendChild(iframe)
   }
 
+  const updateInfoBannerStyle = (section) => {
+    const banner = section.querySelector('.video-info-banner')
+    if (!banner) return
+
+    banner.style.background = 'transparent'
+    banner.style.border = '0'
+    banner.style.boxShadow = 'none'
+    banner.style.color = '#6b8f88'
+
+    const headline = banner.querySelector('strong')
+    if (headline) {
+      headline.style.color = '#6b8f88'
+    }
+  }
+
   const updatePlaceholderText = (card) => {
     const placeholderTitle = card.querySelector('.video-placeholder-title')
     if (placeholderTitle) {
@@ -34,6 +49,8 @@
   const applyVideoFix = () => {
     const section = document.getElementById('videos')
     if (!section) return
+
+    updateInfoBannerStyle(section)
 
     const heading = section.querySelector('.section-title')
     if (heading) {
