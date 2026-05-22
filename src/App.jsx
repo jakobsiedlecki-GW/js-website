@@ -41,22 +41,18 @@ const videos = [
   {
     title: 'Die altersbedingte Makuladegeneration (AMD) – weit verbreitet, aber kaum bekannt.',
     embedUrl: 'https://www.youtube.com/embed/MrGrB5dzV0U',
-    thumbnailUrl: 'https://i.ytimg.com/vi/MrGrB5dzV0U/hqdefault.jpg',
   },
   {
     title: 'Checker-Tobi: Der Augen-Check',
     embedUrl: 'https://www.youtube.com/embed/N9L75KJIktk',
-    thumbnailUrl: 'https://i.ytimg.com/vi/N9L75KJIktk/hqdefault.jpg',
   },
   {
     title: 'Retina-Sprechstunde (Teil 1)',
     embedUrl: 'https://www.youtube.com/embed/VjFzIsMXSnk',
-    thumbnailUrl: 'https://i.ytimg.com/vi/VjFzIsMXSnk/hqdefault.jpg',
   },
   {
     title: 'Retina-Sprechstunde (Teil 2)',
     embedUrl: 'https://www.youtube.com/embed/To78wfcSCJE',
-    thumbnailUrl: 'https://i.ytimg.com/vi/To78wfcSCJE/hqdefault.jpg',
   },
 ]
 
@@ -122,15 +118,17 @@ const styles = `
   .inner-list { display:grid; gap:12px; padding:12px; }
   .inner-item { padding:16px 20px; border-radius:20px; background:rgba(255,255,255,.7); color:#334155; line-height:1.8; }
   .inner-item strong { display:block; margin-bottom:4px; font-size:14px; color:var(--muted); }
-  .video-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:24px; margin-top:40px; }
+  .video-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:24px; margin-top:24px; }
+  .video-info-banner { margin-top:24px; padding:22px 24px; border-radius:24px; border:1px solid #e2e8f0; background:#fbfbfa; color:#475569; line-height:1.75; }
+  .video-info-banner strong { display:block; margin-bottom:6px; color:#0f172a; font-size:18px; }
   .video-frame { aspect-ratio:16/9; background:#f1f5f9; }
   .video-frame iframe { width:100%; height:100%; border:0; display:block; }
-  .video-placeholder { position: relative; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; overflow:hidden; background-size: cover; background-position: center; background-repeat: no-repeat; }
-  .video-placeholder::before { content: ''; position: absolute; inset: 0; background: rgba(15, 23, 42, 0.48); }
-  .video-placeholder-content { position: relative; z-index: 1; max-width: 520px; padding: 28px; text-align:center; color:#fff; }
-  .video-placeholder-title { font-size:20px; font-weight:600; color:#fff; }
-  .video-placeholder-text { margin-top:10px; max-width:460px; color:rgba(255,255,255,0.92); line-height:1.7; }
-  .video-activate { margin-top:18px; border:1px solid rgba(255,255,255,0.7); background:rgba(255,255,255,0.95); color:#0f172a; border-radius:999px; padding:12px 18px; font-size:14px; cursor:pointer; }
+  .video-placeholder { position: relative; aspect-ratio: 16/9; display:flex; align-items:center; justify-content:center; overflow:hidden; background: linear-gradient(135deg, #eef4f2, #ffffff 55%, #f5efe9); }
+  .video-placeholder::before { content: ''; position: absolute; inset: 0; background: rgba(15, 23, 42, 0.10); }
+  .video-placeholder-content { position: relative; z-index: 1; max-width: 520px; padding: 28px; text-align:center; color:#0f172a; }
+  .video-placeholder-title { font-size:20px; font-weight:600; color:#0f172a; }
+  .video-placeholder-text { margin-top:10px; max-width:460px; color:#475569; line-height:1.7; }
+  .video-activate { margin-top:18px; border:1px solid #cbd5e1; background:rgba(255,255,255,0.95); color:#0f172a; border-radius:999px; padding:12px 18px; font-size:14px; cursor:pointer; }
   .video-activate:hover { background:#ffffff; }
   .video-title { padding:22px 24px 24px; font-size:22px; line-height:1.4; font-weight:600; color:#0f172a; }
   .note { margin-top:32px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:22px 24px; border-radius:24px; background:#0f172a; color:#fff; }
@@ -395,8 +393,12 @@ function App() {
         <section id="videos">
           <div className="eyebrow">Videos</div>
           <h2 className="section-title">Videos</h2>
+          <div className="video-info-banner" role="note">
+            <strong>Hinweis zu externen YouTube-Inhalten</strong>
+            Die Videos sind über YouTube eingebunden. Beim bloßen Aufruf dieser Seite wird kein YouTube-Video geladen. Erst wenn Sie ein Video aktivieren, wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und der externe Inhalt geladen.
+          </div>
           <div className="video-grid">
-            {videos.map(({ title, embedUrl, thumbnailUrl }) => {
+            {videos.map(({ title, embedUrl }) => {
               const isActivated = activatedVideos[title]
               return (
                 <div className="card" key={title}>
@@ -404,7 +406,7 @@ function App() {
                     {isActivated ? (
                       <iframe src={embedUrl} title={title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                     ) : (
-                      <div className="video-placeholder" style={{ backgroundImage: `url(${thumbnailUrl})` }}>
+                      <div className="video-placeholder">
                         <div className="video-placeholder-content">
                           <div className="video-placeholder-title">Externer YouTube-Inhalt</div>
                           <div className="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div>
