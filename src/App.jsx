@@ -291,7 +291,7 @@ function PrivacyPolicy({ openCookieSettings }) {
 
       <h4>13. Datensicherheit</h4>
       <p>Wir treffen technische und organisatorische Maßnahmen, um personenbezogene Daten gegen Verlust, Missbrauch, unbefugten Zugriff, Veränderung oder Offenlegung zu schützen.</p>
-      <p>Die Übertragung dieser Website erfolgt verschlüsselt per HTTPS, sofern die SSL-/TLS-Verschlüsselung auf der Website aktiviert ist. Eine verschlüsselte Verbindung erkennen Sie an „https://“ in der Adresszeile Ihres Browsers.</p>
+      <p>Diese Website nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL-/TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers mit „https://“ beginnt und ein Schloss-Symbol angezeigt wird.</p>
 
       <h4>14. Änderung dieser Datenschutzerklärung</h4>
       <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, wenn sich technische, rechtliche oder organisatorische Änderungen ergeben.</p>
