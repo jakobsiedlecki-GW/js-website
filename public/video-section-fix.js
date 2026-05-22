@@ -23,10 +23,33 @@
     const banner = section.querySelector('.video-info-banner')
     if (!banner) return
 
-    banner.style.background = 'transparent'
-    banner.style.border = '0'
-    banner.style.boxShadow = 'none'
-    banner.style.color = '#6b8f88'
+    const isMobile = window.matchMedia('(max-width: 760px)').matches
+
+    if (isMobile) {
+      banner.style.background = '#f7fbfa'
+      banner.style.border = '1px solid #d8e6e2'
+      banner.style.boxShadow = 'none'
+      banner.style.borderRadius = '14px'
+      banner.style.color = '#6b8f88'
+      banner.style.maxHeight = '76px'
+      banner.style.overflowY = 'auto'
+      banner.style.padding = '9px 34px 9px 12px'
+      banner.style.marginTop = '10px'
+      banner.style.WebkitOverflowScrolling = 'touch'
+      banner.style.scrollbarWidth = 'thin'
+    } else {
+      banner.style.background = 'transparent'
+      banner.style.border = '0'
+      banner.style.boxShadow = 'none'
+      banner.style.borderRadius = ''
+      banner.style.color = '#6b8f88'
+      banner.style.maxHeight = ''
+      banner.style.overflowY = ''
+      banner.style.padding = ''
+      banner.style.marginTop = ''
+      banner.style.WebkitOverflowScrolling = ''
+      banner.style.scrollbarWidth = ''
+    }
 
     const headline = banner.querySelector('strong')
     if (headline) {
@@ -89,5 +112,6 @@
     applyVideoFix()
   }
 
+  window.addEventListener('resize', applyVideoFix)
   window.setTimeout(applyVideoFix, 250)
 })()
