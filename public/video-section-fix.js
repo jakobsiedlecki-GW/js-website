@@ -19,6 +19,18 @@
     frame.appendChild(iframe)
   }
 
+  const updatePlaceholderText = (card) => {
+    const placeholderTitle = card.querySelector('.video-placeholder-title')
+    if (placeholderTitle) {
+      placeholderTitle.textContent = 'Externer YouTube-Inhalt (Google Ireland Limited)'
+    }
+
+    const placeholderText = card.querySelector('.video-placeholder-text')
+    if (placeholderText) {
+      placeholderText.innerHTML = 'Beim Laden wird eine Verbindung zu Google-Servern hergestellt, wobei Daten ggf. auch in die USA übertragen werden. Dabei werden personenbezogene Daten (z.B. IP-Adresse) übertragen und ggf. Cookies gesetzt. Mehr dazu in unserer <a href="/datenschutz.html">Datenschutzerklärung</a>.'
+    }
+  }
+
   const applyVideoFix = () => {
     const section = document.getElementById('videos')
     if (!section) return
@@ -35,6 +47,8 @@
       const [title, url] = videos[index]
       const titleNode = card.querySelector('.video-title')
       if (titleNode) titleNode.textContent = title
+
+      updatePlaceholderText(card)
 
       const oldButton = card.querySelector('.video-activate')
       if (!oldButton || oldButton.dataset.fixedVideoButton === 'true') return
