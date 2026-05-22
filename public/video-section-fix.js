@@ -65,7 +65,7 @@
 
     const placeholderText = card.querySelector('.video-placeholder-text')
     if (placeholderText) {
-      placeholderText.innerHTML = 'Beim Laden wird eine Verbindung zu Google-Servern hergestellt, wobei Daten ggf. auch in die USA übertragen werden. Dabei werden personenbezogene Daten (z.B. IP-Adresse) übertragen und ggf. Cookies gesetzt. Mehr dazu in unserer <a href="/datenschutz.html">Datenschutzerklärung</a>.'
+      placeholderText.innerHTML = 'Beim Laden wird eine Verbindung zu Google-Servern hergestellt, wobei Daten ggf. auch in die USA übertragen werden. Dabei werden personenbezogene Daten (z.B. IP-Adresse) übertragen und ggf. Cookies gesetzt. Mehr dazu in unserer <a href="/datenschutz.html" style="color: #2563eb; text-decoration: underline; text-underline-offset: 3px; font-weight: 600;">Datenschutzerklärung</a>.'
     }
   }
 
