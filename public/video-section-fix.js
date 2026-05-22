@@ -1,6 +1,6 @@
 (() => {
   const videos = [
-    ['Mit Jean Pütz: Die altersbedingte Makuladegeneration (AMD) – weit verbreitet, aber kaum bekannt.', 'https://www.youtube.com/embed/MrGrB5dzV0U'],
+    ['Mit Jean Pütz: Die AMD - weit verbreitet, aber kaum bekannt.', 'https://www.youtube.com/embed/MrGrB5dzV0U'],
     ['Checker Tobi (KiKA/Das Erste): Der Augen-Check', 'https://www.youtube.com/embed/N9L75KJIktk'],
     ['Galileo (ProSieben): Verbessert Schokolade wirklich das Sehvermögen?', 'https://www.youtube.com/embed/Nr7ryyeRcdE'],
     ['Retina-Sprechstunde (Teil 1)', 'https://www.youtube.com/embed/VjFzIsMXSnk'],
