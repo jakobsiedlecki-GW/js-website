@@ -1,0 +1,19 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Canonical host: eyepinion.de
+RewriteCond %{HTTP_HOST} ^www\.eyepinion\.de$ [NC]
+RewriteRule ^ https://eyepinion.de%{REQUEST_URI} [L,R=301]
+
+# Serve static files directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# SPA fallback for non-file routes
+RewriteRule ^ index.html [L]
