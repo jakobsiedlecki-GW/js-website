@@ -6,15 +6,48 @@
     ['Retina-Sprechstunde (Teil 1)', 'https://www.youtube.com/embed/VjFzIsMXSnk'],
   ]
 
+  const getMobileVideoHeight = () => (window.matchMedia('(max-width: 760px)').matches ? '280px' : '')
+
+  const updateVideoBoxSize = (card) => {
+    const height = getMobileVideoHeight()
+    const frame = card.querySelector('.video-frame')
+    const placeholder = card.querySelector('.video-placeholder')
+    const iframe = card.querySelector('iframe')
+
+    if (frame) {
+      frame.style.height = height
+      frame.style.minHeight = height
+    }
+
+    if (placeholder) {
+      placeholder.style.height = height
+      placeholder.style.minHeight = height
+    }
+
+    if (iframe) {
+      iframe.style.width = '100%'
+      iframe.style.height = height || '100%'
+      iframe.style.display = 'block'
+    }
+  }
+
   const activateVideo = (card, title, url) => {
     const frame = card.querySelector('.video-frame')
     if (!frame) return
+    const height = getMobileVideoHeight()
+
     frame.textContent = ''
+    frame.style.height = height
+    frame.style.minHeight = height
+
     const iframe = document.createElement('iframe')
     iframe.src = url
     iframe.title = title
     iframe.loading = 'lazy'
     iframe.allowFullscreen = true
+    iframe.style.width = '100%'
+    iframe.style.height = height || '100%'
+    iframe.style.display = 'block'
     iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture')
     frame.appendChild(iframe)
   }
@@ -89,6 +122,7 @@
       if (titleNode) titleNode.textContent = title
 
       updatePlaceholderText(card)
+      updateVideoBoxSize(card)
 
       const oldButton = card.querySelector('.video-activate')
       if (!oldButton || oldButton.dataset.fixedVideoButton === 'true') return
