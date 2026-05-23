@@ -11,17 +11,15 @@ const rootFiles = [
   '.htaccess',
 ]
 
+const rootFileNames = new Set(rootFiles.map((file) => basename(file)))
 const publicDir = 'public'
-const copyExtensions = new Set([
+const assetExtensions = new Set([
   '.jpg',
   '.jpeg',
   '.png',
   '.webp',
   '.svg',
   '.ico',
-  '.txt',
-  '.xml',
-  '.html',
   '.css',
   '.js',
 ])
@@ -51,6 +49,10 @@ try {
   const entries = await readdir(publicDir, { withFileTypes: true })
 
   for (const entry of entries) {
+    if (rootFileNames.has(entry.name)) {
+      continue
+    }
+
     const source = join(publicDir, entry.name)
     const target = join(distDir, entry.name)
 
@@ -59,7 +61,7 @@ try {
       continue
     }
 
-    if (copyExtensions.has(extensionOf(entry.name)) || entry.name === '.htaccess') {
+    if (assetExtensions.has(extensionOf(entry.name))) {
       await cp(source, target)
     }
   }
