@@ -17,25 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="a4803ca2-b2e7-41be-b470-a25a10eb4dad" data-blockingmode="auto" type="text/javascript"></script>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Physician",
-    "name": "PD Dr. med. Jakob Siedlecki, FEBO",
-    "url": "https://eyepinion.de/",
-    "image": "https://eyepinion.de/public/jakob-siedlecki.jpeg",
-    "medicalSpecialty": "Ophthalmology",
-    "jobTitle": "Facharzt für Augenheilkunde",
-    "email": "mailto:jakob@eyepinion.de",
-    "telephone": "+49 89 6492969",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Südliche Münchner Straße 20",
-      "postalCode": "82031",
-      "addressLocality": "Grünwald",
-      "addressCountry": "DE"
-    },
-    "sameAs": ["https://scholar.google.com/citations?user=ZWFYojEAAAAJ&hl=de"]
-  }
+  {"@context":"https://schema.org","@type":"Physician","name":"PD Dr. med. Jakob Siedlecki, FEBO","url":"https://eyepinion.de/","image":"https://eyepinion.de/public/jakob-siedlecki.jpeg","medicalSpecialty":"Ophthalmology","jobTitle":"Facharzt für Augenheilkunde","email":"mailto:jakob@eyepinion.de","telephone":"+49 89 6492969","address":{"@type":"PostalAddress","streetAddress":"Südliche Münchner Straße 20","postalCode":"82031","addressLocality":"Grünwald","addressCountry":"DE"},"sameAs":["https://scholar.google.com/citations?user=ZWFYojEAAAAJ&hl=de"]}
   </script>
   <style>
     :root { --bg-1:#f8fbfb; --bg-2:#f6f4f1; --card:rgba(255,255,255,.94); --text:#1f2937; --muted:#64748b; --mint:#eef4f2; --rose:#f5efe9; --shadow:0 10px 40px rgba(15,23,42,.06); }
@@ -93,27 +75,25 @@
     .video-info-banner strong { display:block; margin-bottom:6px; color:#0f172a; font-size:18px; }
     .video-frame { aspect-ratio:16/9; background:#f1f5f9; }
     .video-frame iframe { width:100%; height:100%; border:0; display:block; }
+    .video-placeholder { position:relative; aspect-ratio:16/9; min-height:260px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:linear-gradient(135deg,#eef4f2,#fff 55%,#f5efe9); }
+    .video-placeholder::before { content:""; position:absolute; inset:0; background:rgba(15,23,42,.08); }
+    .video-placeholder-content { position:relative; z-index:1; max-width:520px; padding:28px; text-align:center; color:#0f172a; }
+    .video-placeholder-title { font-size:20px; font-weight:600; color:#0f172a; }
+    .video-placeholder-text { margin-top:10px; max-width:460px; color:#475569; line-height:1.7; }
+    .video-activate { margin-top:18px; border:1px solid #cbd5e1; background:rgba(255,255,255,.95); color:#0f172a; border-radius:999px; padding:12px 18px; font-size:14px; cursor:pointer; }
     .video-title { display:grid; place-items:center; min-height:92px; padding:0 24px; text-align:center; line-height:1.35; color:#6b8f88; background:#fff; border-top:1px solid #d8e6e2; font-size:22px; font-weight:600; }
     .note { margin-top:32px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:22px 24px; border-radius:24px; background:#0f172a; color:#fff; }
     .note small { display:block; margin-top:4px; color:#cbd5e1; }
     footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px; padding:20px 0 40px; color:var(--muted); font-size:12px; }
     @media (max-width:1024px) { .hero,.profile-focus,.vita-grid,.contact-grid { grid-template-columns:1fr; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr 1fr; } }
-    @media (max-width:760px) { .container { width:min(100% - 28px,1180px); } .header-inner { display:grid; } .nav { display:none; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr; } .note { flex-direction:column; align-items:flex-start; } h1 { font-size:40px; } .lead { font-size:18px; } .photo-caption { font-size:18px; } section { scroll-margin-top:58px; } .video-frame { aspect-ratio:16/9; min-height:220px; } }
+    @media (max-width:760px) { .container { width:min(100% - 28px,1180px); } .header-inner { display:grid; } .nav { display:none; } .grid-3,.grid-2,.video-grid { grid-template-columns:1fr; } .note { flex-direction:column; align-items:flex-start; } h1 { font-size:40px; } .lead { font-size:18px; } .photo-caption { font-size:18px; } section { scroll-margin-top:58px; } .video-frame,.video-placeholder { aspect-ratio:auto; min-height:280px; } .video-placeholder-text { max-height:104px; overflow-y:auto; -webkit-overflow-scrolling:touch; } }
   </style>
 </head>
 <body>
   <header class="header">
     <div class="container header-inner">
-      <div>
-        <div class="eyebrow">Augenheilkunde</div>
-        <div class="brand-title">PD Dr. med. Jakob Siedlecki, FEBO</div>
-      </div>
-      <nav class="nav" aria-label="Hauptnavigation">
-        <a href="#schwerpunkte">Schwerpunkte</a>
-        <a href="#vita">Vita</a>
-        <a href="#videos">Videos</a>
-        <a href="#kontakt" class="btn btn-dark">Kontakt</a>
-      </nav>
+      <div><div class="eyebrow">Augenheilkunde</div><div class="brand-title">PD Dr. med. Jakob Siedlecki, FEBO</div></div>
+      <nav class="nav" aria-label="Hauptnavigation"><a href="#schwerpunkte">Schwerpunkte</a><a href="#vita">Vita</a><a href="#videos">Videos</a><a href="#kontakt" class="btn btn-dark">Kontakt</a></nav>
     </div>
   </header>
 
@@ -123,125 +103,60 @@
         <div class="badge">Für Patientinnen und Patienten</div>
         <h1>Augenheilkunde mit Sorgfalt,<br />Präzision und persönlicher Begleitung</h1>
         <p class="lead">Ich begleite Patientinnen und Patienten mit moderner Diagnostik, präziser operativer Expertise und einer verständlichen Aufklärung – von der ersten Beratung bis zur Nachsorge.</p>
-        <div class="grid-2" style="margin-top:32px">
-          <div class="card"><div class="card-body icon-row"><div class="icon-box">+</div><div>Oberarzt an der Augenklinik des LMU Klinikums München</div></div></div>
-          <div class="card"><div class="card-body icon-row"><div class="icon-box">+</div><div>Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München</div></div></div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px">
-          <a class="btn btn-dark" href="#kontakt">Termin &amp; Kontakt</a>
-          <a class="btn btn-light" href="#videos">Videos</a>
-        </div>
+        <div class="grid-2" style="margin-top:32px"><div class="card"><div class="card-body icon-row"><div class="icon-box">+</div><div>Oberarzt an der Augenklinik des LMU Klinikums München</div></div></div><div class="card"><div class="card-body icon-row"><div class="icon-box">+</div><div>Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München</div></div></div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px"><a class="btn btn-dark" href="#kontakt">Termin &amp; Kontakt</a><a class="btn btn-light" href="#videos">Videos</a></div>
       </div>
-      <div class="photo-wrap">
-        <div class="photo-glow"></div>
-        <div class="photo-frame"><img src="/public/jakob-siedlecki.jpeg" alt="PD Dr. med. Jakob Siedlecki, FEBO" /></div>
-        <div class="photo-caption">PD Dr. med. Jakob Siedlecki, FEBO</div>
-      </div>
+      <div class="photo-wrap"><div class="photo-glow"></div><div class="photo-frame"><img src="/public/jakob-siedlecki.jpeg" alt="PD Dr. med. Jakob Siedlecki, FEBO" /></div><div class="photo-caption">PD Dr. med. Jakob Siedlecki, FEBO</div></div>
     </section>
 
     <section class="profile-focus">
-      <div class="card soft-rose"><div class="card-body">
-        <div class="eyebrow">Profil</div>
-        <div style="margin-top:12px;font-size:28px;font-weight:600;color:#0f172a">PD Dr. med. Jakob Siedlecki, FEBO</div>
-        <p style="margin-top:12px;color:#64748b;line-height:1.75">Augenarzt für konservative und operative Augenheilkunde</p>
-        <div class="stack">
-          <div class="stack-item">Oberarzt an der Augenklinik des LMU Klinikums München</div>
-          <div class="stack-item">Spezialisierung in mikroinvasiver Augenchirurgie (&gt;15.000 Eingriffe)</div>
-          <div class="stack-item">Wissenschaftlicher Schwerpunkt in Augenchirurgie, OCT-Diagnostik und Makula-Therapie</div>
-          <div class="goal">Mein Ziel: Ein gemeinsamer Weg zur Lösung Ihres Problems</div>
-        </div>
-      </div></div>
-      <div class="card"><div class="card-body">
-        <div style="font-size:22px;font-weight:600;color:#0f172a">Behandlung mit Fokus auf Präzision</div>
-        <p style="margin-top:14px;color:#64748b;line-height:1.9">Mein Schwerpunkt liegt auf evidenzbasierter Augenheilkunde mit besonderem Fokus auf moderner Diagnostik und Bildgebung, minimalinvasiver Augenchirurgie sowie der Langzeitbetreuung chronischer Erkrankungen (Altersbedingte Makuladegeneration, Grüner Star, Hornhauterkrankungen, u.v.m.).</p>
-        <div class="grid-2" style="margin-top:24px">
-          <div class="stack-item" style="background:#f8fafc">Sorgfältige Diagnostik und präzise Einschätzung</div>
-          <div class="stack-item" style="background:#f8fafc">Patientenverständliche Erklärung aller Schritte</div>
-          <div class="stack-item" style="background:#f8fafc">Individuelle Therapieempfehlung statt Standardlösung</div>
-          <div class="stack-item" style="background:#f8fafc">Begleitung vor, während und nach Eingriffen</div>
-        </div>
-      </div></div>
+      <div class="card soft-rose"><div class="card-body"><div class="eyebrow">Profil</div><div style="margin-top:12px;font-size:28px;font-weight:600;color:#0f172a">PD Dr. med. Jakob Siedlecki, FEBO</div><p style="margin-top:12px;color:#64748b;line-height:1.75">Augenarzt für konservative und operative Augenheilkunde</p><div class="stack"><div class="stack-item">Oberarzt an der Augenklinik des LMU Klinikums München</div><div class="stack-item">Spezialisierung in mikroinvasiver Augenchirurgie (&gt;15.000 Eingriffe)</div><div class="stack-item">Wissenschaftlicher Schwerpunkt in Augenchirurgie, OCT-Diagnostik und Makula-Therapie</div><div class="goal">Mein Ziel: Ein gemeinsamer Weg zur Lösung Ihres Problems</div></div></div></div>
+      <div class="card"><div class="card-body"><div style="font-size:22px;font-weight:600;color:#0f172a">Behandlung mit Fokus auf Präzision</div><p style="margin-top:14px;color:#64748b;line-height:1.9">Mein Schwerpunkt liegt auf evidenzbasierter Augenheilkunde mit besonderem Fokus auf moderner Diagnostik und Bildgebung, minimalinvasiver Augenchirurgie sowie der Langzeitbetreuung chronischer Erkrankungen (Altersbedingte Makuladegeneration, Grüner Star, Hornhauterkrankungen, u.v.m.).</p><div class="grid-2" style="margin-top:24px"><div class="stack-item" style="background:#f8fafc">Sorgfältige Diagnostik und präzise Einschätzung</div><div class="stack-item" style="background:#f8fafc">Patientenverständliche Erklärung aller Schritte</div><div class="stack-item" style="background:#f8fafc">Individuelle Therapieempfehlung statt Standardlösung</div><div class="stack-item" style="background:#f8fafc">Begleitung vor, während und nach Eingriffen</div></div></div></div>
     </section>
 
     <section id="schwerpunkte">
-      <div class="eyebrow">Schwerpunkte</div>
-      <h2 class="section-title">Wobei ich Sie unterstütze</h2>
+      <div class="eyebrow">Schwerpunkte</div><h2 class="section-title">Wobei ich Sie unterstütze</h2>
       <div class="grid-3" style="margin-top:40px">
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/GR.png')"><div class="highlight-label">Linsenchirurgie (Grauer Star)</div></div></div></div>
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/IV.png')"><div class="highlight-label">Makula-Therapie (IVOM, Laser, Diagnostik)</div></div></div></div>
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/VO.png')"><div class="highlight-label">Augenärztliche Vorsorge (Sehfehler, Brillenverordnung u.v.m.)</div></div></div></div>
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/GL.png')"><div class="highlight-label">Betreuung bei Glaukom (Grüner Star)</div></div></div></div>
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/MA.png')"><div class="highlight-label">Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen)</div></div></div></div>
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/TR.png')"><div class="highlight-label">Therapie des Trockenen Auges</div></div></div></div>
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/LA.png')"><div class="highlight-label">Lasertherapie</div></div></div></div>
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/HH.png')"><div class="highlight-label">Hornhauterkrankungen</div></div></div></div>
-        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/ZW.png')"><div class="highlight-label">Zweitmeinung</div></div></div></div>
+        <div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/GR.png')"><div class="highlight-label">Linsenchirurgie (Grauer Star)</div></div></div></div><div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/IV.png')"><div class="highlight-label">Makula-Therapie (IVOM, Laser, Diagnostik)</div></div></div></div><div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/VO.png')"><div class="highlight-label">Augenärztliche Vorsorge (Sehfehler, Brillenverordnung u.v.m.)</div></div></div></div><div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/GL.png')"><div class="highlight-label">Betreuung bei Glaukom (Grüner Star)</div></div></div></div><div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/MA.png')"><div class="highlight-label">Netzhaut- und Makulachirurgie (Epiretinale Gliose, Makulaforamen)</div></div></div></div><div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/TR.png')"><div class="highlight-label">Therapie des Trockenen Auges</div></div></div></div><div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/LA.png')"><div class="highlight-label">Lasertherapie</div></div></div></div><div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/HH.png')"><div class="highlight-label">Hornhauterkrankungen</div></div></div></div><div class="card"><div class="card-body"><div class="highlight-box" style="background-image:url('/public/ZW.png')"><div class="highlight-label">Zweitmeinung</div></div></div></div>
       </div>
     </section>
 
     <section id="vita">
-      <div class="eyebrow">Vita</div>
-      <h2 class="section-title">Laufbahn und Wissenschaft</h2>
+      <div class="eyebrow">Vita</div><h2 class="section-title">Laufbahn und Wissenschaft</h2>
       <div class="vita-grid" style="margin-top:40px">
-        <div class="card soft-mint"><div class="card-body">
-          <div style="font-size:30px;font-weight:600;color:#0f172a">Medizinische Laufbahn</div>
-          <div class="inner-frame"><div class="inner-list">
-            <div class="inner-item"><strong>seit 2023</strong>Zusätzliche konservative und chirurgische Tätigkeit in Niederlassung (Grünwald)</div>
-            <div class="inner-item"><strong>10/2021</strong>Ernennung zum Oberarzt für ophthalmologische Vorder- und Hinterabschnittschirurgie mit Schwerpunkt Linsen- und Netzhautchirurgie sowie medikamentöser Makulatherapie</div>
-            <div class="inner-item"><strong>08/2021</strong>Habilitation im Fach Augenheilkunde an der LMU München und Ernennung zum Privatdozenten</div>
-            <div class="inner-item"><strong>03/2021</strong>Facharztanerkennung und FEBO</div>
-            <div class="inner-item"><strong>2019</strong>Experimentelle Promotion (summa cum laude) zur Therapieoptimierung der feuchten AMD</div>
-            <div class="inner-item"><strong>2015 bis 2021</strong>Weiterbildung zum Facharzt für Augenheilkunde an der Augenklinik und Poliklinik des Klinikums der Universität München</div>
-            <div class="inner-item"><strong>2015</strong>Staatsexamen und Approbation als Arzt</div>
-            <div class="inner-item"><strong>2008 bis 2015</strong>Medizinstudium an der LMU München und der Technischen Universität München</div>
-          </div></div>
-        </div></div>
-        <div class="card soft-mint"><div class="card-body">
-          <div style="font-size:30px;font-weight:600;color:#0f172a">Lehre, Forschung und Publikationen</div>
-          <div class="inner-frame"><div class="inner-list">
-            <div class="inner-item">Wissenschaftliche Publikationstätigkeit (&gt;100 Publikationen in Fachzeitschriften mit Peer-Review) <a class="underline" href="https://scholar.google.com/citations?user=ZWFYojEAAAAJ&hl=de" target="_blank" rel="noreferrer">Link zu Google Scholar</a></div>
-            <div class="inner-item">&gt;10 Jahre Lehrtätigkeit in der Augenheilkunde</div>
-            <div class="inner-item">Regelmäßige nationale und internationale Fachvorträge und Mitarbeit in zahlreichen Fortbildungsformaten</div>
-            <div class="inner-item">Autor zahlreicher Buchkapitel zur Augenchirurgie und spezialisierten Diagnostik</div>
-            <div class="inner-item">Medizinischer Sachverständiger in augenärztlichen Streitfragen</div>
-            <div class="inner-item">Betreuung von Doktorandinnen und Doktoranden</div>
-            <div class="inner-item">Mitglied zahlreicher Fachgesellschaften (DOG, RG, EURETINA, ARVO, AAO u.v.m.)</div>
-          </div></div>
-        </div></div>
+        <div class="card soft-mint"><div class="card-body"><div style="font-size:30px;font-weight:600;color:#0f172a">Medizinische Laufbahn</div><div class="inner-frame"><div class="inner-list"><div class="inner-item"><strong>seit 2023</strong>Zusätzliche konservative und chirurgische Tätigkeit in Niederlassung (Grünwald)</div><div class="inner-item"><strong>10/2021</strong>Ernennung zum Oberarzt für ophthalmologische Vorder- und Hinterabschnittschirurgie mit Schwerpunkt Linsen- und Netzhautchirurgie sowie medikamentöser Makulatherapie</div><div class="inner-item"><strong>08/2021</strong>Habilitation im Fach Augenheilkunde an der LMU München und Ernennung zum Privatdozenten</div><div class="inner-item"><strong>03/2021</strong>Facharztanerkennung und FEBO</div><div class="inner-item"><strong>2019</strong>Experimentelle Promotion (summa cum laude) zur Therapieoptimierung der feuchten AMD</div><div class="inner-item"><strong>2015 bis 2021</strong>Weiterbildung zum Facharzt für Augenheilkunde an der Augenklinik und Poliklinik des Klinikums der Universität München</div><div class="inner-item"><strong>2015</strong>Staatsexamen und Approbation als Arzt</div><div class="inner-item"><strong>2008 bis 2015</strong>Medizinstudium an der LMU München und der Technischen Universität München</div></div></div></div></div>
+        <div class="card soft-mint"><div class="card-body"><div style="font-size:30px;font-weight:600;color:#0f172a">Lehre, Forschung und Publikationen</div><div class="inner-frame"><div class="inner-list"><div class="inner-item">Wissenschaftliche Publikationstätigkeit (&gt;100 Publikationen in Fachzeitschriften mit Peer-Review) <a class="underline" href="https://scholar.google.com/citations?user=ZWFYojEAAAAJ&hl=de" target="_blank" rel="noreferrer">Link zu Google Scholar</a></div><div class="inner-item">&gt;10 Jahre Lehrtätigkeit in der Augenheilkunde</div><div class="inner-item">Regelmäßige nationale und internationale Fachvorträge und Mitarbeit in zahlreichen Fortbildungsformaten</div><div class="inner-item">Autor zahlreicher Buchkapitel zur Augenchirurgie und spezialisierten Diagnostik</div><div class="inner-item">Medizinischer Sachverständiger in augenärztlichen Streitfragen</div><div class="inner-item">Betreuung von Doktorandinnen und Doktoranden</div><div class="inner-item">Mitglied zahlreicher Fachgesellschaften (DOG, RG, EURETINA, ARVO, AAO u.v.m.)</div></div></div></div></div>
       </div>
     </section>
 
     <section id="videos">
-      <div class="eyebrow">Videos</div>
-      <h2 class="section-title">Videos</h2>
-      <div class="video-info-banner" role="note">
-        <strong>Hinweis zu externen YouTube-Inhalten</strong>
-        Die Videos sind über YouTube eingebunden. Beim Laden der Videos kann eine Verbindung zu YouTube beziehungsweise Google hergestellt werden.
-      </div>
+      <div class="eyebrow">Videos</div><h2 class="section-title">Videos</h2>
+      <div class="video-info-banner" role="note"><strong>Hinweis zu externen YouTube-Inhalten</strong>Die Videos sind über YouTube eingebunden. Beim bloßen Aufruf dieser Seite wird kein YouTube-Video geladen. Erst wenn Sie ein Video aktivieren, wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und der externe Inhalt geladen.</div>
       <div class="video-grid">
-        <article class="card"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/MrGrB5dzV0U" title="Die altersbedingte Makuladegeneration (AMD)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><div class="video-title">Die altersbedingte Makuladegeneration (AMD) – weit verbreitet, aber kaum bekannt.</div></article>
-        <article class="card"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/N9L75KJIktk" title="Checker-Tobi: Der Augen-Check" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><div class="video-title">Checker-Tobi: Der Augen-Check</div></article>
-        <article class="card"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/VjFzIsMXSnk" title="Retina-Sprechstunde Teil 1" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><div class="video-title">Retina-Sprechstunde (Teil 1)</div></article>
-        <article class="card"><div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/To78wfcSCJE" title="Retina-Sprechstunde Teil 2" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><div class="video-title">Retina-Sprechstunde (Teil 2)</div></article>
+        <article class="card"><div class="video-frame"><div class="video-placeholder" data-embed="https://www.youtube-nocookie.com/embed/MrGrB5dzV0U" data-title="Die altersbedingte Makuladegeneration (AMD) – weit verbreitet, aber kaum bekannt."><div class="video-placeholder-content"><div class="video-placeholder-title">Externer YouTube-Inhalt</div><div class="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div><button type="button" class="video-activate">Video aktivieren</button></div></div></div><div class="video-title">Die altersbedingte Makuladegeneration (AMD) – weit verbreitet, aber kaum bekannt.</div></article>
+        <article class="card"><div class="video-frame"><div class="video-placeholder" data-embed="https://www.youtube-nocookie.com/embed/N9L75KJIktk" data-title="Checker-Tobi: Der Augen-Check"><div class="video-placeholder-content"><div class="video-placeholder-title">Externer YouTube-Inhalt</div><div class="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div><button type="button" class="video-activate">Video aktivieren</button></div></div></div><div class="video-title">Checker-Tobi: Der Augen-Check</div></article>
+        <article class="card"><div class="video-frame"><div class="video-placeholder" data-embed="https://www.youtube-nocookie.com/embed/VjFzIsMXSnk" data-title="Retina-Sprechstunde (Teil 1)"><div class="video-placeholder-content"><div class="video-placeholder-title">Externer YouTube-Inhalt</div><div class="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div><button type="button" class="video-activate">Video aktivieren</button></div></div></div><div class="video-title">Retina-Sprechstunde (Teil 1)</div></article>
+        <article class="card"><div class="video-frame"><div class="video-placeholder" data-embed="https://www.youtube-nocookie.com/embed/To78wfcSCJE" data-title="Retina-Sprechstunde (Teil 2)"><div class="video-placeholder-content"><div class="video-placeholder-title">Externer YouTube-Inhalt</div><div class="video-placeholder-text">Mit der Aktivierung wird eine Verbindung zu YouTube beziehungsweise Google hergestellt und das Video eingebettet angezeigt.</div><button type="button" class="video-activate">Video aktivieren</button></div></div></div><div class="video-title">Retina-Sprechstunde (Teil 2)</div></article>
       </div>
     </section>
 
-    <section id="kontakt">
-      <div class="eyebrow">Kontakt</div>
-      <h2 class="section-title">Standorte und Terminmöglichkeiten</h2>
-      <p class="section-text">Für Terminwünsche oder organisatorische Fragen kann die jeweilige Einrichtung direkt kontaktiert werden.</p>
-      <div class="contact-grid">
-        <div class="card"><div class="card-body"><div style="font-size:24px;font-weight:600;color:#0f172a">Praxis Dr. Vlachou-Vaterrodt</div><div style="margin-top:14px;line-height:1.8;color:#334155">Südliche Münchner Straße 20, 82031 Grünwald<br />089 / 649 29 69<br />info@augen-arzt.de</div><div style="margin-top:16px"><a class="btn btn-dark" href="https://augen-arzt.de/" target="_blank" rel="noreferrer">Praxis-Website</a></div></div></div>
-        <div class="card"><div class="card-body"><div style="font-size:24px;font-weight:600;color:#0f172a">LMU Augenklinik</div><div style="margin-top:14px;line-height:1.8;color:#334155">Mathildenstraße 8, 80336 München<br />089 / 4400-53811<br />augenklinik.termine@med.uni-muenchen.de</div><div style="margin-top:16px"><a class="btn btn-dark" href="https://www.lmu-klinikum.de/augenklinik/klinik-kompakt/arzte-wiss-mitarbeiter/b22e75136d9e4888" target="_blank" rel="noreferrer">LMU-Profil</a></div></div></div>
-      </div>
-      <div class="note"><div><strong>Hinweis</strong><small>Diese Website dient der Information und ersetzt keine individuelle ärztliche Untersuchung. Bei akuten Beschwerden sollte zeitnah augenärztliche Hilfe in Anspruch genommen werden.</small></div><div>Terminvergabe über die jeweilige Einrichtung</div></div>
-    </section>
+    <section id="kontakt"><div class="eyebrow">Kontakt</div><h2 class="section-title">Standorte und Terminmöglichkeiten</h2><p class="section-text">Für Terminwünsche oder organisatorische Fragen kann die jeweilige Einrichtung direkt kontaktiert werden.</p><div class="contact-grid"><div class="card"><div class="card-body"><div style="font-size:24px;font-weight:600;color:#0f172a">Praxis Dr. Vlachou-Vaterrodt</div><div style="margin-top:14px;line-height:1.8;color:#334155">Südliche Münchner Straße 20, 82031 Grünwald<br />089 / 649 29 69<br />info@augen-arzt.de</div><div style="margin-top:16px"><a class="btn btn-dark" href="https://augen-arzt.de/" target="_blank" rel="noreferrer">Praxis-Website</a></div></div></div><div class="card"><div class="card-body"><div style="font-size:24px;font-weight:600;color:#0f172a">LMU Augenklinik</div><div style="margin-top:14px;line-height:1.8;color:#334155">Mathildenstraße 8, 80336 München<br />089 / 4400-53811<br />augenklinik.termine@med.uni-muenchen.de</div><div style="margin-top:16px"><a class="btn btn-dark" href="https://www.lmu-klinikum.de/augenklinik/klinik-kompakt/arzte-wiss-mitarbeiter/b22e75136d9e4888" target="_blank" rel="noreferrer">LMU-Profil</a></div></div></div></div><div class="note"><div><strong>Hinweis</strong><small>Diese Website dient der Information und ersetzt keine individuelle ärztliche Untersuchung. Bei akuten Beschwerden sollte zeitnah augenärztliche Hilfe in Anspruch genommen werden.</small></div><div>Terminvergabe über die jeweilige Einrichtung</div></div></section>
   </main>
 
-  <footer>
-    <a href="/impressum.html">Impressum</a>
-    <span aria-hidden="true">·</span>
-    <a href="/datenschutz.html">Datenschutz</a>
-  </footer>
+  <footer><a href="/impressum.html">Impressum</a><span aria-hidden="true">·</span><a href="/datenschutz.html">Datenschutz</a></footer>
+  <script>
+    document.querySelectorAll('.video-placeholder').forEach((placeholder) => {
+      const button = placeholder.querySelector('.video-activate')
+      button?.addEventListener('click', () => {
+        const iframe = document.createElement('iframe')
+        iframe.src = placeholder.dataset.embed
+        iframe.title = placeholder.dataset.title
+        iframe.loading = 'lazy'
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+        iframe.allowFullscreen = true
+        placeholder.replaceWith(iframe)
+      })
+    })
+  </script>
 </body>
 </html>
