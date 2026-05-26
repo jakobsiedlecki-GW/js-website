@@ -55,16 +55,6 @@ const videoFrameCss = `
 
 const mobileLegalCss = `
     /* Mobile: kompakter Rechtsbereich und kein doppeltes Scrollen */
-    .cookie-settings-link {
-      border: 0;
-      padding: 0;
-      background: transparent;
-      color: inherit;
-      font: inherit;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      cursor: pointer;
-    }
     @media (max-width:760px) {
       footer {
         width: calc(100% - 28px);
@@ -74,8 +64,7 @@ const mobileLegalCss = `
         gap: 8px 12px;
         line-height: 1.6;
       }
-      footer a,
-      footer .cookie-settings-link {
+      footer a {
         padding: 6px 0;
         font-size: 13px;
       }
@@ -144,25 +133,6 @@ function injectHeroHospitalIcons(html) {
     )
 }
 
-function injectCookieSettingsLink(html) {
-  const currentFooter = '<footer><a href="/impressum.html">Impressum</a><span aria-hidden="true">·</span><a href="/datenschutz.html">Datenschutz</a></footer>'
-  const updatedFooter = '<footer><a href="/impressum.html">Impressum</a><span aria-hidden="true">·</span><a href="/datenschutz.html">Datenschutz</a><span aria-hidden="true">·</span><button type="button" class="cookie-settings-link">Datenschutzeinstellungen</button></footer>'
-
-  return html.replace(currentFooter, updatedFooter)
-}
-
-function injectCookieSettingsScript(html) {
-  if (html.includes('Cookiebot.renew')) {
-    return html
-  }
-
-  const script = `<script>
-    document.querySelectorAll('.cookie-settings-link').forEach((button)=>{button.addEventListener('click',()=>{if(window.Cookiebot&&typeof window.Cookiebot.renew==='function'){window.Cookiebot.renew()}})})
-  </script>`
-
-  return html.replace('</body>', `${script}\n</body>`)
-}
-
 async function enhanceIndexHtml() {
   const indexPath = join(distDir, 'index.html')
 
@@ -175,8 +145,6 @@ async function enhanceIndexHtml() {
     updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige Krankenhaus-Emojis')
     updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
     updatedHtml = injectHeroHospitalIcons(updatedHtml)
-    updatedHtml = injectCookieSettingsLink(updatedHtml)
-    updatedHtml = injectCookieSettingsScript(updatedHtml)
 
     if (updatedHtml !== html) {
       await writeFile(indexPath, updatedHtml, 'utf8')
