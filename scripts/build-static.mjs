@@ -90,6 +90,15 @@ const mobileLegalCss = `
     }
 `
 
+const heroHospitalIconCss = `
+    /* Hero: einfarbige Krankenhaus-Emojis */
+    .hospital-icon {
+      font-size: 22px;
+      line-height: 1;
+      filter: grayscale(1);
+    }
+`
+
 function extensionOf(fileName) {
   const index = fileName.lastIndexOf('.')
   return index === -1 ? '' : fileName.slice(index).toLowerCase()
@@ -110,6 +119,18 @@ function injectCss(html, css, marker) {
   }
 
   return html.replace('</style>', `${css}\n  </style>`)
+}
+
+function injectHeroHospitalIcons(html) {
+  return html
+    .replace(
+      '<div class="icon-box">+</div><div>Oberarzt an der Augenklinik des LMU Klinikums München</div>',
+      '<div class="icon-box hospital-icon" aria-hidden="true">🏥</div><div>Oberarzt an der Augenklinik des LMU Klinikums München</div>',
+    )
+    .replace(
+      '<div class="icon-box">+</div><div>Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München</div>',
+      '<div class="icon-box hospital-icon" aria-hidden="true">🏥</div><div>Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München</div>',
+    )
 }
 
 function injectCookieSettingsLink(html) {
@@ -140,6 +161,8 @@ async function enhanceIndexHtml() {
 
     updatedHtml = injectCss(updatedHtml, videoFrameCss, 'Pastellrahmen für Video-Karten')
     updatedHtml = injectCss(updatedHtml, mobileLegalCss, 'Mobile: kompakter Rechtsbereich')
+    updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige Krankenhaus-Emojis')
+    updatedHtml = injectHeroHospitalIcons(updatedHtml)
     updatedHtml = injectCookieSettingsLink(updatedHtml)
     updatedHtml = injectCookieSettingsScript(updatedHtml)
 
