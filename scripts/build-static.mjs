@@ -120,15 +120,15 @@ function injectCookieSettingsLink(html) {
 }
 
 function injectCookieSettingsScript(html) {
-  const marker = 'cookie-settings-link'
-  const script = `
-    document.querySelectorAll('.cookie-settings-link').forEach((button)=>{button.addEventListener('click',()=>{if(window.Cookiebot&&typeof window.Cookiebot.renew==='function'){window.Cookiebot.renew()}})})`
-
   if (html.includes('Cookiebot.renew')) {
     return html
   }
 
-  return html.replace('</script>', `${script}\n  </script>`)
+  const script = `<script>
+    document.querySelectorAll('.cookie-settings-link').forEach((button)=>{button.addEventListener('click',()=>{if(window.Cookiebot&&typeof window.Cookiebot.renew==='function'){window.Cookiebot.renew()}})})
+  </script>`
+
+  return html.replace('</body>', `${script}\n</body>`)
 }
 
 async function enhanceIndexHtml() {
