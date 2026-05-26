@@ -99,6 +99,17 @@ const heroHospitalIconCss = `
     }
 `
 
+const desktopAnchorScrollCss = `
+    /* Desktop: Ankerziele höher unter der Navigation anzeigen */
+    @media (min-width:761px) {
+      #schwerpunkte,
+      #vita,
+      #videos {
+        scroll-margin-top: 52px;
+      }
+    }
+`
+
 function extensionOf(fileName) {
   const index = fileName.lastIndexOf('.')
   return index === -1 ? '' : fileName.slice(index).toLowerCase()
@@ -162,6 +173,7 @@ async function enhanceIndexHtml() {
     updatedHtml = injectCss(updatedHtml, videoFrameCss, 'Pastellrahmen für Video-Karten')
     updatedHtml = injectCss(updatedHtml, mobileLegalCss, 'Mobile: kompakter Rechtsbereich')
     updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige Krankenhaus-Emojis')
+    updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
     updatedHtml = injectHeroHospitalIcons(updatedHtml)
     updatedHtml = injectCookieSettingsLink(updatedHtml)
     updatedHtml = injectCookieSettingsScript(updatedHtml)
