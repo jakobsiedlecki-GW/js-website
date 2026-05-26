@@ -53,6 +53,43 @@ const videoFrameCss = `
     }
 `
 
+const mobileLegalCss = `
+    /* Mobile: kompakter Rechtsbereich und kein doppeltes Scrollen */
+    .cookie-settings-link {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    @media (max-width:760px) {
+      footer {
+        width: calc(100% - 28px);
+        margin: 0 auto;
+        padding: 14px 0 max(18px, env(safe-area-inset-bottom));
+        border-top: 1px solid #e2e8f0;
+        gap: 8px 12px;
+        line-height: 1.6;
+      }
+      footer a,
+      footer .cookie-settings-link {
+        padding: 6px 0;
+        font-size: 13px;
+      }
+      .video-placeholder-text {
+        max-height: none !important;
+        overflow: visible !important;
+        -webkit-overflow-scrolling: auto !important;
+      }
+      #CybotCookiebotDialog {
+        max-height: calc(100dvh - 16px) !important;
+      }
+    }
+`
+
 function extensionOf(fileName) {
   const index = fileName.lastIndexOf('.')
   return index === -1 ? '' : fileName.slice(index).toLowerCase()
@@ -67,18 +104,48 @@ async function copyIfExists(source, target) {
   }
 }
 
-async function injectVideoFrameCss() {
+function injectCss(html, css, marker) {
+  if (html.includes(marker)) {
+    return html
+  }
+
+  return html.replace('</style>', `${css}\n  </style>`)
+}
+
+function injectCookieSettingsLink(html) {
+  const currentFooter = '<footer><a href="/impressum.html">Impressum</a><span aria-hidden="true">·</span><a href="/datenschutz.html">Datenschutz</a></footer>'
+  const updatedFooter = '<footer><a href="/impressum.html">Impressum</a><span aria-hidden="true">·</span><a href="/datenschutz.html">Datenschutz</a><span aria-hidden="true">·</span><button type="button" class="cookie-settings-link">Datenschutzeinstellungen</button></footer>'
+
+  return html.replace(currentFooter, updatedFooter)
+}
+
+function injectCookieSettingsScript(html) {
+  const marker = 'cookie-settings-link'
+  const script = `
+    document.querySelectorAll('.cookie-settings-link').forEach((button)=>{button.addEventListener('click',()=>{if(window.Cookiebot&&typeof window.Cookiebot.renew==='function'){window.Cookiebot.renew()}})})`
+
+  if (html.includes('Cookiebot.renew')) {
+    return html
+  }
+
+  return html.replace('</script>', `${script}\n  </script>`)
+}
+
+async function enhanceIndexHtml() {
   const indexPath = join(distDir, 'index.html')
 
   try {
     const html = await readFile(indexPath, 'utf8')
+    let updatedHtml = html
 
-    if (html.includes('Pastellrahmen für Video-Karten')) {
-      return
+    updatedHtml = injectCss(updatedHtml, videoFrameCss, 'Pastellrahmen für Video-Karten')
+    updatedHtml = injectCss(updatedHtml, mobileLegalCss, 'Mobile: kompakter Rechtsbereich')
+    updatedHtml = injectCookieSettingsLink(updatedHtml)
+    updatedHtml = injectCookieSettingsScript(updatedHtml)
+
+    if (updatedHtml !== html) {
+      await writeFile(indexPath, updatedHtml, 'utf8')
     }
-
-    const updatedHtml = html.replace('</style>', `${videoFrameCss}\n  </style>`)
-    await writeFile(indexPath, updatedHtml, 'utf8')
   } catch (error) {
     if (error?.code !== 'ENOENT') throw error
   }
@@ -115,6 +182,6 @@ try {
   if (error?.code !== 'ENOENT') throw error
 }
 
-await injectVideoFrameCss()
+await enhanceIndexHtml()
 
 console.log('Static website copied to dist/')
