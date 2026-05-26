@@ -54,15 +54,27 @@ const videoFrameCss = `
 `
 
 const mobileLegalCss = `
-    /* Mobile: kompakter Rechtsbereich und kein doppeltes Scrollen */
+    /* Mobile: Impressum/Datenschutz dauerhaft sichtbar */
     @media (max-width:760px) {
+      body {
+        padding-bottom: 72px;
+      }
       footer {
-        width: calc(100% - 28px);
-        margin: 0 auto;
-        padding: 14px 0 max(18px, env(safe-area-inset-bottom));
-        border-top: 1px solid #e2e8f0;
+        position: fixed;
+        left: 14px;
+        right: 14px;
+        bottom: max(8px, env(safe-area-inset-bottom));
+        z-index: 45;
+        width: auto;
+        margin: 0;
+        padding: 8px 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 999px;
+        background: rgba(255,255,255,.94);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 10px 28px rgba(15,23,42,.10);
         gap: 8px 12px;
-        line-height: 1.6;
+        line-height: 1.4;
       }
       footer a {
         padding: 6px 0;
@@ -80,11 +92,12 @@ const mobileLegalCss = `
 `
 
 const heroHospitalIconCss = `
-    /* Hero: einfarbige Krankenhaus-Emojis */
-    .hospital-icon {
+    /* Hero: einfarbige medizinische Symbole */
+    .mono-icon {
       font-size: 22px;
       line-height: 1;
-      filter: grayscale(1);
+      filter: grayscale(1) saturate(0);
+      opacity: .82;
     }
 `
 
@@ -94,7 +107,7 @@ const desktopAnchorScrollCss = `
       #schwerpunkte,
       #vita,
       #videos {
-        scroll-margin-top: 52px;
+        scroll-margin-top: 44px;
       }
     }
 `
@@ -121,15 +134,15 @@ function injectCss(html, css, marker) {
   return html.replace('</style>', `${css}\n  </style>`)
 }
 
-function injectHeroHospitalIcons(html) {
+function injectHeroMedicalIcons(html) {
   return html
     .replace(
       '<div class="icon-box">+</div><div>Oberarzt an der Augenklinik des LMU Klinikums München</div>',
-      '<div class="icon-box hospital-icon" aria-hidden="true">🏥</div><div>Oberarzt an der Augenklinik des LMU Klinikums München</div>',
+      '<div class="icon-box mono-icon" aria-hidden="true">🏥</div><div>Oberarzt an der Augenklinik des LMU Klinikums München</div>',
     )
     .replace(
       '<div class="icon-box">+</div><div>Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München</div>',
-      '<div class="icon-box hospital-icon" aria-hidden="true">🏥</div><div>Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München</div>',
+      '<div class="icon-box mono-icon" aria-hidden="true">🩺</div><div>Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald bei München</div>',
     )
 }
 
@@ -141,10 +154,10 @@ async function enhanceIndexHtml() {
     let updatedHtml = html
 
     updatedHtml = injectCss(updatedHtml, videoFrameCss, 'Pastellrahmen für Video-Karten')
-    updatedHtml = injectCss(updatedHtml, mobileLegalCss, 'Mobile: kompakter Rechtsbereich')
-    updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige Krankenhaus-Emojis')
+    updatedHtml = injectCss(updatedHtml, mobileLegalCss, 'Mobile: Impressum/Datenschutz dauerhaft sichtbar')
+    updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige medizinische Symbole')
     updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
-    updatedHtml = injectHeroHospitalIcons(updatedHtml)
+    updatedHtml = injectHeroMedicalIcons(updatedHtml)
 
     if (updatedHtml !== html) {
       await writeFile(indexPath, updatedHtml, 'utf8')
