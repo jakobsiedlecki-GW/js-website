@@ -54,31 +54,31 @@ const videoFrameCss = `
 `
 
 const mobileLegalCss = `
-    /* Mobile: Impressum/Datenschutz dauerhaft sichtbar */
+    /* Mobile: Impressum/Datenschutz dauerhaft schlicht sichtbar */
     @media (max-width:760px) {
       body {
-        padding-bottom: 72px;
+        padding-bottom: 52px;
       }
       footer {
         position: fixed;
-        left: 14px;
-        right: 14px;
-        bottom: max(8px, env(safe-area-inset-bottom));
+        left: 0;
+        right: 0;
+        bottom: 0;
         z-index: 45;
-        width: auto;
+        width: 100%;
         margin: 0;
-        padding: 8px 12px;
-        border: 1px solid #e2e8f0;
-        border-radius: 999px;
-        background: rgba(255,255,255,.94);
-        backdrop-filter: blur(14px);
-        box-shadow: 0 10px 28px rgba(15,23,42,.10);
+        padding: 7px 0 max(9px, env(safe-area-inset-bottom));
+        border: 0;
+        border-radius: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.94) 42%, rgba(255,255,255,.96));
+        box-shadow: none;
         gap: 8px 12px;
         line-height: 1.4;
       }
       footer a {
-        padding: 6px 0;
-        font-size: 13px;
+        padding: 4px 0;
+        font-size: 12px;
+        color: #64748b;
       }
       .video-placeholder-text {
         max-height: none !important;
@@ -154,7 +154,7 @@ async function enhanceIndexHtml() {
     let updatedHtml = html
 
     updatedHtml = injectCss(updatedHtml, videoFrameCss, 'Pastellrahmen für Video-Karten')
-    updatedHtml = injectCss(updatedHtml, mobileLegalCss, 'Mobile: Impressum/Datenschutz dauerhaft sichtbar')
+    updatedHtml = injectCss(updatedHtml, mobileLegalCss, 'Mobile: Impressum/Datenschutz dauerhaft schlicht sichtbar')
     updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige medizinische Symbole')
     updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
     updatedHtml = injectHeroMedicalIcons(updatedHtml)
