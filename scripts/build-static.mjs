@@ -1,4 +1,4 @@
-import { cp, mkdir, readdir, rm, stat, readFile, writeFile } from 'node:fs/promises'
+import { cp, mkdir, rm, stat, readFile, writeFile } from 'node:fs/promises'
 import { basename, join } from 'node:path'
 
 const distDir = 'dist'
@@ -11,18 +11,7 @@ const rootFiles = [
   '.htaccess',
 ]
 
-const rootFileNames = new Set(rootFiles.map((file) => basename(file)))
 const publicDir = 'public'
-const assetExtensions = new Set([
-  '.jpg',
-  '.jpeg',
-  '.png',
-  '.webp',
-  '.svg',
-  '.ico',
-  '.css',
-  '.js',
-])
 
 const videoFrameCss = `
     /* Pastellrahmen für Video-Karten */
@@ -112,11 +101,6 @@ const desktopAnchorScrollCss = `
     }
 `
 
-function extensionOf(fileName) {
-  const index = fileName.lastIndexOf('.')
-  return index === -1 ? '' : fileName.slice(index).toLowerCase()
-}
-
 async function copyIfExists(source, target) {
   try {
     await stat(source)
@@ -174,29 +158,10 @@ for (const file of rootFiles) {
   await copyIfExists(file, join(distDir, basename(file)))
 }
 
-try {
-  const entries = await readdir(publicDir, { withFileTypes: true })
-
-  for (const entry of entries) {
-    if (rootFileNames.has(entry.name)) {
-      continue
-    }
-
-    const source = join(publicDir, entry.name)
-    const target = join(distDir, entry.name)
-
-    if (entry.isDirectory()) {
-      await cp(source, target, { recursive: true })
-      continue
-    }
-
-    if (assetExtensions.has(extensionOf(entry.name))) {
-      await cp(source, target)
-    }
-  }
-} catch (error) {
-  if (error?.code !== 'ENOENT') throw error
-}
+// The source HTML references assets below /public/...
+// Keep that directory name in the deployment output so IONOS can serve images
+// and other static assets correctly when the publish directory is dist/.
+await copyIfExists(publicDir, join(distDir, publicDir))
 
 await enhanceIndexHtml()
 
