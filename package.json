@@ -3,8 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20 <21",
+    "npm": ">=10"
+  },
   "scripts": {
     "build": "node scripts/build-static.mjs",
     "preview": "npx serve dist"
-  }
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }
