@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Allow: /public/
+Allow: /assets/
 
 Sitemap: https://eyepinion.de/sitemap.xml
