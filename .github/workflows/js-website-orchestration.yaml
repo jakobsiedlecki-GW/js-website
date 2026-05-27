@@ -7,16 +7,18 @@ name: "Deploy Now: Orchestration"
 run-name: "Deploy Now: Build js-website · ${{ github.event.head_commit.message || format('Triggered by {0}', github.triggering_actor) }}"
 
 on:
-  - push
-  - workflow_dispatch
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   retrieve-project:
     name: check readiness
     runs-on: ubuntu-latest
     outputs:
-      deployment-enabled: ${{ fromJson(steps.project.outputs.info).deployment-enabled }}
-      branch-id: ${{ fromJson(steps.project.outputs.info).branch-id }}
+      deployment-enabled: ${{ steps.project-info.outputs.deployment-enabled }}
+      branch-id: ${{ steps.project-info.outputs.branch-id }}
     steps:
       - name: Fetch project data
         uses: ionos-deploy-now/project-action@v1
@@ -27,11 +29,24 @@ jobs:
           project-id: 031d009d-9eec-4f71-b624-082587c0bd49
           action: retrieve-info
 
+      - name: Normalize project data
+        id: project-info
+        env:
+          PROJECT_INFO: ${{ steps.project.outputs.info }}
+        run: |
+          if [ -z "$PROJECT_INFO" ]; then
+            echo "deployment-enabled=false" >> "$GITHUB_OUTPUT"
+            echo "branch-id=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "deployment-enabled=$(printf '%s' "$PROJECT_INFO" | jq -r '."deployment-enabled" // false')" >> "$GITHUB_OUTPUT"
+          echo "branch-id=$(printf '%s' "$PROJECT_INFO" | jq -r '."branch-id" // ""')" >> "$GITHUB_OUTPUT"
 
   build:
     name: build
     needs: retrieve-project
-    if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' }}
+    if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' && needs.retrieve-project.outputs.branch-id != '' }}
     uses: ./.github/workflows/js-website-build.yaml
     with:
       site-url: https://IONOS_DEPLOY_NOW_SITE_URL
@@ -43,6 +58,7 @@ jobs:
     needs:
       - retrieve-project
       - build
+    if: ${{ needs.retrieve-project.outputs.deployment-enabled == 'true' && needs.retrieve-project.outputs.branch-id != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch deployment(s)
