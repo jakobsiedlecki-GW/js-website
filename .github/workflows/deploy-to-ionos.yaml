@@ -20,8 +20,8 @@ on:
         require: true
         type: string
   push:
-    path:
-      - ./.github/workflows/deploy-to-ionos.yaml
+    branches:
+      - main
 
 concurrency: ${{ github.ref }}
 
