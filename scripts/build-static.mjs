@@ -122,6 +122,31 @@ const heroPortraitRightCss = `
         padding-right: 4px;
       }
     }
+    @media (max-width:760px) {
+      .hero .photo-wrap {
+        display: grid;
+        justify-items: end;
+        width: 100%;
+        padding-right: clamp(8px, 4vw, 18px);
+        transform: translateX(12px);
+      }
+      .hero .photo-glow {
+        right: 0;
+        left: auto;
+        width: min(72vw, 260px);
+      }
+      .hero .photo-frame {
+        width: min(68vw, 260px);
+        margin-left: auto;
+        margin-right: 0;
+      }
+      .hero .photo-caption {
+        width: min(68vw, 260px);
+        margin-left: auto;
+        margin-right: 0;
+        text-align: right;
+      }
+    }
 `
 
 async function copyIfExists(source, target) {
