@@ -101,6 +101,29 @@ const desktopAnchorScrollCss = `
     }
 `
 
+const heroPortraitRightCss = `
+    /* Hero: Portrait weiter rechts platzieren */
+    @media (min-width:1025px) {
+      .hero {
+        grid-template-columns: .92fr 1.08fr;
+      }
+      .hero .photo-wrap {
+        justify-self: end;
+        width: min(100%, 500px);
+        transform: translateX(32px);
+      }
+      .hero .photo-frame {
+        width: min(100%, 420px);
+        margin-left: auto;
+        margin-right: 0;
+      }
+      .hero .photo-caption {
+        text-align: right;
+        padding-right: 4px;
+      }
+    }
+`
+
 async function copyIfExists(source, target) {
   try {
     await stat(source)
@@ -141,6 +164,7 @@ async function enhanceIndexHtml() {
     updatedHtml = injectCss(updatedHtml, mobileLegalCss, 'Mobile: Impressum/Datenschutz dauerhaft schlicht sichtbar')
     updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige medizinische Symbole')
     updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
+    updatedHtml = injectCss(updatedHtml, heroPortraitRightCss, 'Hero: Portrait weiter rechts')
     updatedHtml = injectHeroMedicalIcons(updatedHtml)
 
     if (updatedHtml !== html) {
