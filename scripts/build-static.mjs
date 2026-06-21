@@ -123,28 +123,51 @@ const heroPortraitRightCss = `
       }
     }
     @media (max-width:760px) {
+      .hero {
+        gap: 12px;
+      }
       .hero .photo-wrap {
-        display: grid;
-        justify-items: end;
-        width: 100%;
-        padding-right: clamp(8px, 4vw, 18px);
-        transform: translateX(12px);
+        position: relative;
+        display: block;
+        width: calc(100% + 6px);
+        margin-top: 6px;
+        margin-right: -6px;
+        padding-right: 0;
+        overflow: visible;
+        transform: none;
       }
       .hero .photo-glow {
-        right: 0;
-        left: auto;
-        width: min(72vw, 260px);
+        inset: 22px 0 10px auto;
+        width: min(76vw, 292px);
+        border-radius: 32px;
+        filter: blur(30px);
       }
       .hero .photo-frame {
-        width: min(68vw, 260px);
+        width: min(74vw, 286px);
+        aspect-ratio: 4 / 5;
         margin-left: auto;
         margin-right: 0;
+        border-radius: 30px 0 0 30px;
+        box-shadow: 0 18px 42px rgba(15,23,42,.12);
+      }
+      .hero .photo-frame img {
+        object-position: center top;
       }
       .hero .photo-caption {
-        width: min(68vw, 260px);
-        margin-left: auto;
-        margin-right: 0;
+        position: absolute;
+        right: 14px;
+        bottom: 14px;
+        width: auto;
+        max-width: min(66vw, 235px);
+        margin: 0;
+        padding: 9px 13px;
+        border-radius: 16px;
         text-align: right;
+        font-size: 13px;
+        line-height: 1.3;
+        background: rgba(255,255,255,.88);
+        box-shadow: 0 8px 22px rgba(15,23,42,.1);
+        backdrop-filter: blur(8px);
       }
     }
 `
