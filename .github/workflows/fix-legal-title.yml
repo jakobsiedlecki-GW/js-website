@@ -1,0 +1,16 @@
+name: Fix legal title
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -c "from pathlib import Path; files=['impressum.html','datenschutz.html','index.html','src/App.jsx']; reps=[('PD Dr. med. Jakob Siedlecki, FEBO','Prof. Dr. med. Jakob Siedlecki, FEBO'),('PD Dr. med. Siedlecki','Prof. Siedlecki'),('PD Dr. Siedlecki','Prof. Siedlecki'),('Prof. Dr. med. Siedlecki','Prof. Siedlecki')]; [p.write_text(__import__('functools').reduce(lambda s,r:s.replace(*r), reps, p.read_text(encoding='utf-8')), encoding='utf-8') for p in map(Path, files) if p.exists()]"
+      - run: git config user.name github-actions && git config user.email github-actions@github.com && git add impressum.html datenschutz.html index.html src/App.jsx && git diff --cached --quiet || git commit -m "Fix titles in legal pages" && git push
