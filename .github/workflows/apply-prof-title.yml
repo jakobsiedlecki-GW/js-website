@@ -1,0 +1,34 @@
+name: Apply professor title
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  replace-title:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Replace title only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace('PD Dr. med. Jakob Siedlecki, FEBO', 'Prof. Dr. med. Jakob Siedlecki, FEBO')
+          path.write_text(text, encoding='utf-8')
+          PY
+      - name: Remove temporary workflow
+        run: rm .github/workflows/apply-prof-title.yml
+      - name: Commit exact title fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/apply-prof-title.yml
+          git diff --cached --quiet || git commit -m "Apply professor title in index.html"
+          git push
