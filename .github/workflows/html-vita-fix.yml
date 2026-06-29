@@ -1,0 +1,31 @@
+name: HTML Vita Fix
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '<div class="inner-item"><strong>seit 2023</strong>Zusätzliche Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald</div>'
+          new = '<div class="inner-item"><strong>06/2026</strong>Ernennung zum Professor an der LMU München</div><div class="inner-item"><strong>seit 2024</strong>Zusätzliche Tätigkeit in der Praxis Dr. Vlachou-Vaterrodt, Grünwald</div><div class="inner-item"><strong>2023 bis 2024</strong>Tätigkeit in der Augenarztpraxis Fokus Auge, Rosenheim</div>'
+          s = s.replace(old, new)
+          s = s.replace('06/2021</strong>Ernennung zum Professor an der LMU München', '06/2026</strong>Ernennung zum Professor an der LMU München')
+          p.write_text(s, encoding='utf-8')
+          PY
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add index.html
+          git diff --cached --quiet || git commit -m "Update medical career HTML"
+          git push
