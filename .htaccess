@@ -1,0 +1,30 @@
+# Apache hardening for eyepinion.de
+# This file is copied into dist/ by npm run build and also protects the repo root
+# if the hosting document root is accidentally pointed at the repository.
+
+DirectoryIndex index.html
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Keep ACME/SSL validation paths reachable, but block other dotfiles/directories.
+  RewriteRule "(^|/)\.(?!well-known/)" - [F,L]
+
+  # Block repository and source directories if the repo root is exposed by mistake.
+  RewriteRule "^(\.github|scripts|node_modules|src|dist)/" - [F,L]
+</IfModule>
+
+<IfModule mod_authz_core.c>
+  <FilesMatch "^(README(\..*)?|package(-lock)?\.json|npm-shrinkwrap\.json|pnpm-lock\.yaml|yarn\.lock|\.nvmrc)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+</IfModule>
