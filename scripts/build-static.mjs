@@ -4,6 +4,7 @@ import { basename, join } from 'node:path'
 const distDir = 'dist'
 const rootFiles = [
   'index.html',
+  'blog.html',
   'impressum.html',
   'datenschutz.html',
   'robots.txt',
@@ -153,6 +154,17 @@ function injectHeroMedicalIcons(html) {
     )
 }
 
+function injectBlogNavigation(html) {
+  if (html.includes('href="/blog.html"')) {
+    return html
+  }
+
+  return html.replace(
+    '<a href="#videos">Videos</a><a href="#kontakt" class="btn btn-dark">Kontakt</a>',
+    '<a href="#videos">Videos</a><a href="/blog.html">Blog</a><a href="#kontakt" class="btn btn-dark">Kontakt</a>',
+  )
+}
+
 async function enhanceIndexHtml() {
   const indexPath = join(distDir, 'index.html')
 
@@ -166,6 +178,7 @@ async function enhanceIndexHtml() {
     updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
     updatedHtml = injectCss(updatedHtml, heroPortraitRightCss, 'Hero: Portrait weiter rechts')
     updatedHtml = injectHeroMedicalIcons(updatedHtml)
+    updatedHtml = injectBlogNavigation(updatedHtml)
 
     if (updatedHtml !== html) {
       await writeFile(indexPath, updatedHtml, 'utf8')
