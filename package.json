@@ -8,7 +8,7 @@
     "npm": ">=11"
   },
   "scripts": {
-    "build": "node scripts/build-static.mjs",
+    "build": "node scripts/build-static.mjs && node scripts/add-modern-section.mjs",
     "preview": "npx serve dist"
   },
   "dependencies": {},
