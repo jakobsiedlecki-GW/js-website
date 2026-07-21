@@ -9,10 +9,15 @@ const navAfter = '<a href="#schwerpunkte">Schwerpunkte</a><a href="#moderne-auge
 
 if (!html.includes('href="#moderne-augenheilkunde"')) {
   html = html.replace(navBefore, navAfter)
+} else {
+  html = html.replace(
+    /<a href="#moderne-augenheilkunde">[^<]*<\/a>/,
+    '<a href="#moderne-augenheilkunde">Moderne Diagnostik</a>'
+  )
 }
 
 const flipCardStyles = `
-<style>
+<style id="diagnostic-flip-styles">
   .diagnostic-flip-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:40px}
   .diagnostic-flip-card{position:relative;width:100%;aspect-ratio:16/11;border:0;padding:0;background:transparent;cursor:pointer;perspective:1400px;border-radius:22px}
   .diagnostic-flip-card:focus-visible{outline:3px solid #0f766e;outline-offset:5px}
@@ -26,9 +31,8 @@ const flipCardStyles = `
   @media (prefers-reduced-motion:reduce){.diagnostic-flip-card-inner{transition:none}}
 </style>`
 
-if (!html.includes('.diagnostic-flip-grid')) {
-  html = html.replace('</head>', flipCardStyles + '\n</head>')
-}
+html = html.replace(/\n?<style id="diagnostic-flip-styles">[\s\S]*?<\/style>/, '')
+html = html.replace('</head>', flipCardStyles + '\n</head>')
 
 const cards = [
   ['OCT', '/OCT1.png', '/OCT2.png'],
@@ -49,12 +53,15 @@ const cardMarkup = cards.map(([name, front, back]) => `
 const vitaMarker = '    <section id="vita">'
 const modernSection = `    <section id="moderne-augenheilkunde"><div class="eyebrow">Moderne Diagnostik</div><h2 class="section-title">Präzise Diagnostik – verständlich erklärt</h2><p class="section-text">Moderne Bildgebung macht feinste Veränderungen am Auge sichtbar, häufig lange bevor sie im Alltag bemerkt werden. Gezielte Untersuchungen helfen, Befunde präzise einzuordnen, Therapien individuell zu planen und Veränderungen zuverlässig zu kontrollieren.</p><div class="diagnostic-flip-grid">${cardMarkup}</div></section>\n`
 
-if (!html.includes('id="moderne-augenheilkunde"')) {
+const modernSectionPattern = /\s*<section id="moderne-augenheilkunde">[\s\S]*?<\/section>\s*/
+if (modernSectionPattern.test(html)) {
+  html = html.replace(modernSectionPattern, '\n' + modernSection)
+} else {
   html = html.replace(vitaMarker, modernSection + vitaMarker)
 }
 
 const flipCardScript = `
-<script>
+<script id="diagnostic-flip-script">
   document.querySelectorAll('.diagnostic-flip-card').forEach((card) => {
     card.addEventListener('click', () => {
       const flipped = card.classList.toggle('is-flipped')
@@ -65,9 +72,8 @@ const flipCardScript = `
   })
 </script>`
 
-if (!html.includes("querySelectorAll('.diagnostic-flip-card')")) {
-  html = html.replace('</body>', flipCardScript + '\n</body>')
-}
+html = html.replace(/\n?<script id="diagnostic-flip-script">[\s\S]*?<\/script>/, '')
+html = html.replace('</body>', flipCardScript + '\n</body>')
 
 html = html.replace(
   '@media (min-width:761px){#schwerpunkte,#vita,#videos{scroll-margin-top:44px}}',
@@ -75,4 +81,4 @@ html = html.replace(
 )
 
 await writeFile(distIndex, html)
-console.log('Added Moderne Diagnostik flip-card section to dist/index.html')
+console.log('Updated Moderne Diagnostik flip-card section in dist/index.html')
