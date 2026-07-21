@@ -132,6 +132,7 @@
   </style>
 
 
+
 <style id="diagnostic-flip-styles">
   .diagnostic-flip-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:40px}
   .diagnostic-flip-card{position:relative;display:block;width:100%;aspect-ratio:16/11;border:0;padding:0;background:transparent;cursor:pointer;perspective:1400px;border-radius:22px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
@@ -190,6 +191,7 @@
   <script>
     document.querySelectorAll('.video-placeholder').forEach((placeholder)=>{const button=placeholder.querySelector('.video-activate');button?.addEventListener('click',()=>{const iframe=document.createElement('iframe');iframe.src=placeholder.dataset.embed;iframe.title=placeholder.dataset.title;iframe.loading='lazy';iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';iframe.allowFullscreen=true;placeholder.replaceWith(iframe)})})
   </script>
+
 
 
 <script id="diagnostic-flip-script">
