@@ -35,10 +35,10 @@ html = html.replace(/\n?<style id="diagnostic-flip-styles">[\s\S]*?<\/style>/, '
 html = html.replace('</head>', flipCardStyles + '\n</head>')
 
 const cards = [
-  ['OCT', '/OCT1.png', '/OCT2.png'],
-  ['Optos', '/Optos1.png', '/Optos2.png'],
-  ['RNFL', '/RNFL1.png', '/RNFL2.png'],
-  ['Pentacam', '/Pentacam1.png', '/Pentacam2.png']
+  ['OCT', '/public/OCT1.png', '/public/OCT2.png'],
+  ['Optos', '/public/Optos1.png', '/public/Optos2.png'],
+  ['RNFL', '/public/RNFL1.png', '/public/RNFL2.png'],
+  ['Pentacam', '/public/Pentacam1.png', '/public/Pentacam2.png']
 ]
 
 const cardMarkup = cards.map(([name, front, back]) => `
