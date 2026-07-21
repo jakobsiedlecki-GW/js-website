@@ -47,7 +47,7 @@ const cardMarkup = cards.map(([name, front, back]) => `
 </button>`).join('')
 
 const vitaMarker = '    <section id="vita">'
-const modernSection = `    <section id="moderne-augenheilkunde"><div class="eyebrow">Moderne Diagnostik</div><h2 class="section-title">Präzise Diagnostik – verständlich erklärt</h2><p class="section-text">Moderne Bildgebung macht feinste Veränderungen am Auge sichtbar, häufig lange bevor sie im Alltag bemerkt werden. Gezielte Untersuchungen helfen, Befunde präzise einzuordnen, Therapien individuell zu planen und Veränderungen zuverlässig zu kontrollieren.</p><div class="diagnostic-flip-grid">${cardMarkup}</div><div class="note"><div><strong>Technik mit Augenmaß</strong><small>Entscheidend ist nicht die Zahl der Untersuchungen, sondern die gezielte Auswahl der Diagnostik, die für Ihre persönliche Fragestellung einen echten Mehrwert bietet.</small></div><div>Präzision · Verlaufskontrolle · verständliche Beratung</div></div></section>\n`
+const modernSection = `    <section id="moderne-augenheilkunde"><div class="eyebrow">Moderne Diagnostik</div><h2 class="section-title">Präzise Diagnostik – verständlich erklärt</h2><p class="section-text">Moderne Bildgebung macht feinste Veränderungen am Auge sichtbar, häufig lange bevor sie im Alltag bemerkt werden. Gezielte Untersuchungen helfen, Befunde präzise einzuordnen, Therapien individuell zu planen und Veränderungen zuverlässig zu kontrollieren.</p><div class="diagnostic-flip-grid">${cardMarkup}</div></section>\n`
 
 if (!html.includes('id="moderne-augenheilkunde"')) {
   html = html.replace(vitaMarker, modernSection + vitaMarker)
