@@ -124,6 +124,13 @@ const heroPortraitRightCss = `
     }
 `
 
+const flipHintCss = `
+    /* Rückseite der Diagnosekarten ohne Hinweis-Button */
+    .diagnostic-flip-card.is-flipped > .diagnostic-flip-hint {
+      display: none !important;
+    }
+`
+
 async function copyIfExists(source, target) {
   try {
     await stat(source)
@@ -172,6 +179,7 @@ async function enhanceIndexHtml() {
     updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige medizinische Symbole')
     updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
     updatedHtml = injectCss(updatedHtml, heroPortraitRightCss, 'Hero: Portrait weiter rechts')
+    updatedHtml = injectCss(updatedHtml, flipHintCss, 'Rückseite der Diagnosekarten ohne Hinweis-Button')
     updatedHtml = injectHeroMedicalIcons(updatedHtml)
     updatedHtml = hideFlipHintOnBack(updatedHtml)
 
