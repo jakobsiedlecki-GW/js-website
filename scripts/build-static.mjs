@@ -4,6 +4,7 @@ import { basename, join } from 'node:path'
 const distDir = 'dist'
 const rootFiles = [
   'index.html',
+  'blog.html',
   'impressum.html',
   'datenschutz.html',
   'robots.txt',
@@ -124,6 +125,32 @@ const heroPortraitRightCss = `
     }
 `
 
+const blogButtonCss = `
+    /* Blog-Button: auffälliges, blasses Rot auf Mobile und Desktop */
+    .btn-blog,
+    .nav a.btn-blog {
+      border: 1px solid #e6b9b9;
+      background: #f8dddd;
+      color: #7f3434;
+      box-shadow: 0 8px 22px rgba(150, 72, 72, .12);
+      font-weight: 600;
+    }
+    .btn-blog:hover,
+    .nav a.btn-blog:hover {
+      background: #f3cccc;
+      border-color: #dca7a7;
+    }
+    @media (max-width:760px) {
+      .hero-actions {
+        gap: 10px !important;
+      }
+      .hero-actions .btn {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }
+`
+
 async function copyIfExists(source, target) {
   try {
     await stat(source)
@@ -153,6 +180,31 @@ function injectHeroMedicalIcons(html) {
     )
 }
 
+function injectBlogNavigation(html) {
+  let updatedHtml = html
+
+  if (!updatedHtml.includes('<a href="/blog.html" class="btn-blog">Blog</a>')) {
+    updatedHtml = updatedHtml
+      .replace(
+        '<a href="#videos">Videos</a><a href="/blog.html">Blog</a><a href="#kontakt" class="btn btn-dark">Kontakt</a>',
+        '<a href="#videos">Videos</a><a href="/blog.html" class="btn-blog">Blog</a><a href="#kontakt" class="btn btn-dark">Kontakt</a>',
+      )
+      .replace(
+        '<a href="#videos">Videos</a><a href="#kontakt" class="btn btn-dark">Kontakt</a>',
+        '<a href="#videos">Videos</a><a href="/blog.html" class="btn-blog">Blog</a><a href="#kontakt" class="btn btn-dark">Kontakt</a>',
+      )
+  }
+
+  if (!updatedHtml.includes('class="btn btn-blog" href="/blog.html"')) {
+    updatedHtml = updatedHtml.replace(
+      '<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px"><a class="btn btn-dark" href="#kontakt">Termin &amp; Kontakt</a><a class="btn btn-light" href="#videos">Videos</a></div>',
+      '<div class="hero-actions" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px"><a class="btn btn-dark" href="#kontakt">Termin &amp; Kontakt</a><a class="btn btn-light" href="#videos">Videos</a><a class="btn btn-blog" href="/blog.html">Blog</a></div>',
+    )
+  }
+
+  return updatedHtml
+}
+
 async function enhanceIndexHtml() {
   const indexPath = join(distDir, 'index.html')
 
@@ -165,7 +217,9 @@ async function enhanceIndexHtml() {
     updatedHtml = injectCss(updatedHtml, heroHospitalIconCss, 'Hero: einfarbige medizinische Symbole')
     updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
     updatedHtml = injectCss(updatedHtml, heroPortraitRightCss, 'Hero: Portrait weiter rechts')
+    updatedHtml = injectCss(updatedHtml, blogButtonCss, 'Blog-Button: auffälliges, blasses Rot')
     updatedHtml = injectHeroMedicalIcons(updatedHtml)
+    updatedHtml = injectBlogNavigation(updatedHtml)
 
     if (updatedHtml !== html) {
       await writeFile(indexPath, updatedHtml, 'utf8')
