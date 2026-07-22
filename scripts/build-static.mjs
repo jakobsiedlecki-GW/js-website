@@ -153,6 +153,13 @@ function injectHeroMedicalIcons(html) {
     )
 }
 
+function hideFlipHintOnBack(html) {
+  return html.replace(
+    "if (hint) hint.textContent = flipped ? 'Zur Vorderseite' : 'Zum Umdrehen tippen'",
+    "if (hint) hint.style.display = flipped ? 'none' : ''",
+  )
+}
+
 async function enhanceIndexHtml() {
   const indexPath = join(distDir, 'index.html')
 
@@ -166,6 +173,7 @@ async function enhanceIndexHtml() {
     updatedHtml = injectCss(updatedHtml, desktopAnchorScrollCss, 'Desktop: Ankerziele höher')
     updatedHtml = injectCss(updatedHtml, heroPortraitRightCss, 'Hero: Portrait weiter rechts')
     updatedHtml = injectHeroMedicalIcons(updatedHtml)
+    updatedHtml = hideFlipHintOnBack(updatedHtml)
 
     if (updatedHtml !== html) {
       await writeFile(indexPath, updatedHtml, 'utf8')
